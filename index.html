@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Түргэн Тоншуул</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=PT+Mono&display=swap" rel="stylesheet">
+<style>
+/* VOICE: тоглоомлог, дулаахан, 6-р ангийн хүүхдэд ойлгомжтой — гэхдээ цэгцтэй
+   IDEA: модон дээр тоншиж буй тоншуул = товчлуур тоншиж буй хуруу; сургуулийн 4 өнгө = 4 үнэт зүйл
+   PICTURE: модны их бие дээр товчлуур тоншиж буй тоншуул; бичих хэсэгт өнгөт хуруутай гар
+   COLOUR+TYPE: нарлаг шар дэвсгэр, тоншуулын улаан, гүн хөх бэх; 130-р сургуулийн нил ягаан/ногоон/цэнхэр/шар; Nunito + PT Mono
+   LAYOUT: дээд цэс → том зурагтай нүүр → эрхэм зорилго → зорилго → үнэт зүйл → ангийн мод; утсанд нэг багана */
+:root{color-scheme:light dark;
+--bg:light-dark(#fff6dc,#16182b);--card:light-dark(#ffffff,#22253d);--ink:light-dark(#1f2550,#f4f1e6);--mut:light-dark(#5b6188,#a9acc8);
+--red:#ff5a4e;--red2:light-dark(#e8392d,#ff7a6f);--blue:light-dark(#1f2a5a,#8fa8ff);--leaf:light-dark(#2f9e62,#5fd394);--sun:#ffc93c;
+--line:light-dark(#efdfb4,#33375a);--soft:light-dark(#fff0c4,#2b2f4c);
+--s1:#8a4cc2;--s2:#43a843;--s3:#2d78d2;--s4:#e3a100;
+--f0:#b79cff;--f1:#6fb2ff;--f2:#4fd49a;--f3:#ffc93c;--f4:#ff9f4a;--f8:light-dark(#dfe3ee,#4a4f72)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{line-height:1.1;text-wrap:balance;margin:0 0 .4em}
+h1{font-size:clamp(32px,5vw,50px);font-weight:900}h2{font-size:clamp(25px,3vw,34px);font-weight:900}h3{font-size:20px;font-weight:800}
+a{color:var(--red2)}
+.band{padding:clamp(20px,3.5vw,44px) max(4vw,16px)}.wrap{max-width:1180px;margin:0 auto}
+button,.btn{font:inherit;font-weight:800;border:0;border-radius:14px;padding:11px 18px;min-height:44px;cursor:pointer;background:var(--red);color:#fff;box-shadow:0 4px 0 #c23a30;transition:transform .08s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 #c23a30}
+button.ghost,.btn.ghost{background:var(--card);color:var(--ink);box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}
+button.leaf{background:var(--leaf);box-shadow:0 4px 0 light-dark(#1d7346,#2f9e62)}
+button.sm{padding:6px 12px;min-height:38px;box-shadow:none;font-size:15px}
+button:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+input,select,textarea{font:inherit;font-size:16px;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);min-height:44px;width:100%}
+label{font-weight:700;font-size:15px;display:block;margin:10px 0 4px}
+.card{background:var(--card);border-radius:22px;padding:20px;border:2px solid var(--line)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr))}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mut{color:var(--mut)}.small{font-size:14px}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:13px;font-weight:800;background:var(--soft);color:var(--ink)}
+.vchip{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:800;color:#fff}
+.note{font-size:14px;color:var(--mut);margin-top:8px}
+/* header */
+.stripe{display:grid;grid-template-columns:repeat(4,1fr);height:6px}.stripe i:nth-child(1){background:var(--s1)}.stripe i:nth-child(2){background:var(--s2)}.stripe i:nth-child(3){background:var(--s3)}.stripe i:nth-child(4){background:var(--s4)}
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:2px solid var(--line)}
+.bar{display:flex;gap:8px;align-items:center;padding:8px max(4vw,16px);flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:21px;color:var(--ink);text-decoration:none;margin-right:auto;line-height:1.05}
+.logo small{display:block;font-size:12px;font-weight:700;color:var(--mut)}
+.logo svg{width:38px;height:38px}
+.badge130{width:40px;height:40px;border-radius:50%;background:#fff;padding:2px;object-fit:contain;border:2px solid var(--line)}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--ink);text-decoration:none;font-weight:800;font-size:15px;padding:8px 11px;border-radius:12px}
+nav a.on{background:var(--red);color:#fff}
+.who{font-size:14px;font-weight:800;background:var(--soft);padding:8px 12px;border-radius:12px;cursor:pointer;border:0;color:var(--ink);box-shadow:none;min-height:40px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;align-items:center}
+.hero p{font-size:19px;max-width:34em}
+.hero svg{width:100%;height:auto;max-height:430px}
+.tiles{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr))}
+.tile{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px;text-decoration:none;color:var(--ink);display:block;transition:transform .15s}
+.tile:hover{transform:translateY(-3px)}
+.tile b{font-size:18px;display:block}.tile span{font-size:14px;color:var(--mut)}
+.tile i{display:block;width:42px;height:42px;border-radius:14px;margin-bottom:10px}
+/* mission, goals, values */
+.mission{background:var(--card);border-radius:26px;padding:clamp(20px,3vw,36px);border:2px solid var(--line);display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
+.mission .q{font-size:clamp(20px,2.4vw,27px);font-weight:700;line-height:1.4}
+.mission .q b{font-weight:900}
+.mission .mark{font-size:80px;line-height:.8;color:var(--s4);font-weight:900}
+.goals{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.goal{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px;border-top:8px solid var(--c)}
+.goal .n{width:46px;height:46px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:900;font-size:22px;margin-bottom:10px}
+.goal h3{font-size:22px}
+.vals{display:grid;gap:14px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.val{background:var(--c);color:#fff;border-radius:22px;padding:20px;min-height:200px;display:flex;flex-direction:column}
+.val h3{font-size:24px;margin:6px 0 8px}.val p{margin:0;font-size:15px;opacity:.95}
+.val .stat2{margin-top:auto;padding-top:12px;font-weight:900;font-size:15px}
+.tree .r{display:grid;grid-template-columns:44px minmax(0,1fr) 70px;gap:10px;align-items:center;margin:6px 0}
+.tree .bar2{height:26px;border-radius:10px;background:var(--soft);overflow:hidden}
+.tree .bar2 i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,var(--leaf),var(--sun))}
+.an .r{grid-template-columns:minmax(0,130px) minmax(50px,1fr) auto}.an .r b{font-size:14px;line-height:1.2}
+.tree .v{font-weight:900;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* lessons */
+.lessons{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr))}
+.les{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;gap:12px;align-items:center;cursor:pointer;text-align:left;color:var(--ink);box-shadow:none;font-weight:600;justify-content:flex-start}
+.les .n{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:var(--sun);color:#1f2550}
+.les .n.done{background:var(--leaf);color:#fff}
+.les small{display:block;color:var(--mut);font-size:13px}
+.les.lock{opacity:.55;cursor:not-allowed}.les.lock .n{background:var(--line);color:var(--mut)}
+.tabs button:disabled{opacity:.5}
+summary{min-height:44px;display:flex;align-items:center}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{background:var(--card);color:var(--ink);box-shadow:none;border:2px solid var(--line);padding:8px 14px}
+.tabs button.on{background:var(--blue);color:light-dark(#fff,#16182b);border-color:var(--blue)}
+/* typing */
+.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:14px 0}
+.stat{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px 10px;text-align:center}
+.stat b{display:block;font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}.stat span{font-size:13px;color:var(--mut);font-weight:700}
+.text{font-family:"PT Mono",ui-monospace,monospace;font-size:clamp(21px,2.8vw,29px);line-height:1.75;background:var(--card);border:3px solid var(--line);border-radius:22px;padding:18px 22px;letter-spacing:.02em;word-break:break-word;min-height:120px;max-height:330px;overflow:auto}
+.text span{border-radius:6px;padding:0 1px}.text .wd{font-style:normal;white-space:nowrap}
+.text .ok{color:var(--leaf)}.text .bad{background:#ffd6d2;color:#b3261e}
+.text .cur{background:var(--sun);color:#1f2550;box-shadow:0 3px 0 var(--red)}
+.text .cur.err{background:var(--red);color:#fff;animation:shake .2s}
+.text .nl{color:var(--mut)}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.hint{font-weight:800;margin:10px 0;min-height:28px}
+.hint em{font-style:normal;padding:2px 10px;border-radius:10px;color:#1f2550}
+.newkeys{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.newkeys span{padding:4px 10px;border-radius:12px;font-weight:800;font-size:14px;color:#1f2550}
+.kb{background:light-dark(#2a3160,#0f1122);padding:12px;border-radius:22px;margin-top:10px;overflow-x:auto}
+.kbin{min-width:640px;display:grid;gap:6px}
+.kr{display:flex;gap:6px}
+.k{flex:1 1 0;height:46px;border-radius:10px;background:var(--f8);color:#1f2550;display:flex;flex-direction:column;justify-content:center;align-items:center;font-weight:800;font-size:17px;position:relative;line-height:1;border-bottom:4px solid rgba(0,0,0,.25)}
+.k small{font-size:10px;opacity:.65;position:absolute;top:4px;left:6px}
+.k.w15{flex-grow:1.5}.k.w18{flex-grow:1.85}.k.w22{flex-grow:2.3}.k.sp{flex-grow:7}
+.kb.color .k[data-f="0"],.kb.color .k[data-f="7"]{background:var(--f0)}
+.kb.color .k[data-f="1"],.kb.color .k[data-f="6"]{background:var(--f1)}
+.kb.color .k[data-f="2"],.kb.color .k[data-f="5"]{background:var(--f2)}
+.kb.color .k[data-f="3"]{background:var(--f3)}.kb.color .k[data-f="4"]{background:var(--f4)}
+.k.home::after{content:"";position:absolute;bottom:6px;width:12px;height:2px;background:#1f2550;border-radius:2px}
+.k.next{background:#fff!important;outline:4px solid var(--red);transform:translateY(-2px);animation:pulse 1s infinite}
+@keyframes pulse{50%{outline-color:var(--sun)}}
+.hands{display:flex;justify-content:center;gap:60px;margin-top:12px}
+.hand{display:flex;gap:6px;align-items:flex-end}
+.fg{width:24px;border-radius:12px 12px 6px 6px;background:var(--f8);opacity:.55}
+.fg.on{opacity:1;outline:3px solid var(--red)}
+.opts{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;font-weight:700;font-size:15px}
+.opts label{display:flex;gap:6px;align-items:center;margin:0}.opts input{width:22px;min-height:22px}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(20,22,45,.55);display:none;place-items:center;z-index:50;padding:16px;overflow:auto}
+.modal.on{display:grid}.modal .card{max-width:560px;width:100%;text-align:center}
+.stars{font-size:46px;letter-spacing:6px;color:var(--sun)}.stars .off{color:var(--line)}
+/* theory */
+.theory{max-width:840px}
+.sec{border-radius:20px;padding:18px 20px;margin:16px 0;background:var(--card);border:2px solid var(--line)}
+.sec h3{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sec code{font-family:"PT Mono",monospace;background:var(--soft);padding:1px 6px;border-radius:6px;word-break:break-all}
+.tag{font-size:13px;font-weight:900;padding:4px 10px;border-radius:99px;color:#1f2550}
+.t-o{background:#ffd98a}.t-m{background:#a6e3c4}.t-c{background:#b9d3ff}.t-h{background:#ffc2b8}.t-a{background:#e0cdff}.t-x{background:#ffe1a8}
+table{border-collapse:collapse;width:100%}th,td{padding:8px 10px;border-bottom:2px solid var(--line);text-align:left;vertical-align:top}th{font-size:14px;color:var(--mut)}
+.def{background:var(--soft);border-radius:16px;padding:12px 16px;font-weight:700;margin:10px 0;border-left:6px solid var(--s3)}
+.fb{font-weight:700;margin-top:8px;min-height:1.4em}
+.fb.ok{color:var(--leaf)}.fb.no{color:var(--red2)}
+/* game */
+.arena{position:relative;height:430px;border-radius:22px;overflow:hidden;background:linear-gradient(light-dark(#bfe7ff,#1c2350),light-dark(#e9f7ff,#2a3160));border:3px solid var(--line)}
+.arena .w{position:absolute;font-family:"PT Mono",monospace;font-weight:700;font-size:22px;background:var(--card);color:var(--ink);padding:4px 10px;border-radius:12px;box-shadow:0 3px 0 var(--line);white-space:nowrap}
+.arena .w.hit{background:var(--sun);color:#1f2550}
+.arena .ground{position:absolute;left:0;right:0;bottom:0;height:34px;background:var(--leaf)}
+.arena .over{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.hud{display:flex;gap:16px;font-weight:900;font-size:18px;margin:8px 0;flex-wrap:wrap}
+/* questions */
+.qcard{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;margin:14px 0}
+.qcard .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.choice{display:flex;gap:10px;align-items:center;padding:10px 14px;border:2px solid var(--line);border-radius:14px;margin:6px 0;cursor:pointer;font-weight:600}
+.choice input{width:22px;min-height:22px;flex:none}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:center;margin:6px 0}
+.ord{display:flex;gap:8px;align-items:center;padding:8px 10px;border:2px solid var(--line);border-radius:14px;margin:6px 0;background:var(--bg)}
+.ord span{flex:1}.ord button{padding:4px 12px;min-height:38px;box-shadow:none}
+.timer{position:sticky;top:70px;z-index:5;background:var(--blue);color:light-dark(#fff,#16182b);padding:10px 16px;border-radius:16px;font-weight:900;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.rev{border-left:6px solid var(--leaf)}.rev.no{border-left-color:var(--red)}
+.code{font-size:34px;font-weight:900;letter-spacing:6px;font-family:"PT Mono",monospace}
+.scroll{overflow-x:auto}
+.terms .t{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:2px solid var(--line)}
+.demo{font-size:13px;color:var(--mut);font-style:italic}
+.chk{display:flex;gap:8px;align-items:flex-start;font-weight:600;font-size:15px}.chk input{width:22px;min-height:22px;flex:none;margin-top:2px}
+footer{padding:30px max(4vw,16px);color:var(--mut);font-size:14px;text-align:center}
+@media(max-width:900px){.goals{grid-template-columns:1fr}.vals{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.hands{gap:24px}}
+@media(max-width:600px){nav a{padding:6px 8px;font-size:14px}.terms .t{grid-template-columns:1fr;gap:2px}.mrow{grid-template-columns:1fr}table{font-size:14px}.vals{grid-template-columns:1fr}.mission{grid-template-columns:1fr}.mission .mark{display:none}
+.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:2px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;font-weight:700;color:var(--mut)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+#syncdot[data-st=local]{display:none}
+.syncbanner{background:#fff3cd;color:#5c4400;border:1px solid #e0b100;border-radius:12px;padding:10px 14px;margin:0 0 12px;font-size:14px}
+.ltc{display:inline-block;min-width:44px;text-align:center;padding:3px 7px;border-radius:9px;font-weight:800;font-size:13px}
+.lt-g{background:#c9f2d8;color:#145c32}.lt-y{background:#ffe9a8;color:#6b4d00}.lt-r{background:#ffd0c9;color:#8a1c0c}
+.ltres{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--soft);border-radius:16px;padding:14px 16px;margin:8px 0 12px}
+.ltres .big{font-size:40px;font-weight:900;line-height:1}
+.lttimer{position:sticky;top:8px;z-index:5;display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#fff;border-radius:14px;padding:8px 14px;font-weight:800;margin-bottom:10px}
+.qana{display:grid;gap:6px}.qana .qbar{height:10px;border-radius:6px;background:var(--line);overflow:hidden}.qana .qbar>span{display:block;height:100%;border-radius:6px}
+.evrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:2px solid var(--line)}
+.evopts{display:flex;gap:6px;flex-wrap:wrap}.evb{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:none;padding:6px 10px;font-size:13px;font-weight:700;border-radius:12px;display:inline-flex;gap:5px;align-items:center}
+.evb.on{background:var(--leaf);border-color:var(--leaf);color:#fff}.evstars{display:flex;gap:4px}.evst{background:none;box-shadow:none;border:0;font-size:34px;line-height:1;color:var(--line);padding:0 2px}.evst.on{color:#ffb400}
+@media(max-width:640px){.evrow{grid-template-columns:1fr}}
+.oprow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:2px solid var(--line)}.oprow small{display:block;color:var(--mut)}
+.opst{font-size:12px;font-weight:800;padding:3px 9px;border-radius:9px}.opst.on{background:#c9f2d8;color:#145c32}.opst.off{background:var(--soft);color:var(--mut)}
+.stk{display:flex;height:16px;border-radius:8px;overflow:hidden;background:var(--line)}.stk i{display:block;height:100%}
+.notes{display:flex;flex-wrap:wrap;gap:8px}.notes span{background:var(--soft);border-radius:12px;padding:6px 10px;font-size:13px}
+</style>
+</head>
+<body>
+<header><div class="stripe"><i></i><i></i><i></i><i></i></div><div class="bar">
+  <a class="logo" href="#home"><img class="badge130" src="logo130.png" alt="130-р сургууль"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#bird"/></svg><span>Түргэн Тоншуул<small>130-р сургууль · 6-р анги</small></span></a>
+  <nav id="nav"><a href="#typing" data-v="typing">Бичих</a><a href="#theory" data-v="theory">Онол</a><a href="#terms" data-v="terms">Нэр томьёо</a><a href="#game" data-v="game">Тоглоом</a><a href="#speed" data-v="speed">Хурд</a><a href="#exam" data-v="exam">Шалгалт</a></nav>
+  <span id="syncdot" data-st="local"></span>
+ <button class="who" id="who">Нэвтрэх</button>
+</div></header>
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="bird"><path d="M24 50 L18 63 L30 55Z" fill="#1f2550"/><ellipse cx="32" cy="38" rx="13" ry="19" fill="#1f2550"/><ellipse cx="35" cy="42" rx="8" ry="13" fill="#fff"/><path d="M22 34 q4 10 12 12" stroke="#fff" stroke-width="3" fill="none"/><circle cx="30" cy="20" r="11" fill="#1f2550"/><path d="M19 18 Q20 4 34 7 Q26 9 24 22Z" fill="#ff5a4e"/><path d="M22 23 Q30 30 39 24" stroke="#fff" stroke-width="3" fill="none"/><circle cx="34" cy="18" r="4.5" fill="#fff"/><circle cx="35" cy="18" r="2.2" fill="#1f2550"/><path d="M40 19 L62 21.5 L40 24Z" fill="#ffc93c"/></g>
+</defs></svg>
+<main id="app"></main>
+<div class="modal" id="modal"><div class="card" id="mbox"></div></div>
+<footer>Түргэн Тоншуул · 130-р сургуулийн 6-р ангийн Мэдээллийн технологийн сургалтын сайт<br>Эв нэгдэл · Эерэг хандлага · Тасралтгүй хөгжил · Үүрэг хариуцлага<span class="demo" id="demonote" hidden><br>Загвар хувилбар: мэдээлэл энэ хөтөч дээр хадгалагдана.</span></footer>
+<script src="firebase-config.js"></script>
+<script>window.SYNC_ROOT="tonshuul6";window.SYNC_PREFIX="tt2_";window.SYNC_KEYS=["users", "exams", "teachers", "ttexts", "opened"];window.SYNC_EMPTY={"users":{},"exams":{},"ttexts":[],"opened":{}};</script>
+<script src="sync.js"></script>
+<script src="data/typing.js"></script>
+<script src="data/theory1.js"></script>
+<script src="data/theory2.js"></script>
+<script src="data/terms.js"></script>
+<script src="data/exams.js"></script>
+<script src="data/ltest.js"></script>
+<script>
+window.__APP=function(){
+/* ========== ӨГӨГДӨЛ (загвар: localStorage → дараа нь Firebase) ========== */
+const mem={};
+const store={get(k,d){try{const v=localStorage.getItem('tt2_'+k);return v?JSON.parse(v):(mem[k]??d)}catch(e){return mem[k]??d}},
+ set(k,v){mem[k]=v;try{localStorage.setItem('tt2_'+k,JSON.stringify(v))}catch(e){}}};
+const _sg=store.get,_ss=store.set;store.get=(k,d)=>{const v=_sg(k,d);SYNC.bind(k,v);return v};store.set=(k,v)=>{_ss(k,v);SYNC.push(k,v)};
+const CLASSES=['6А','6Б','6В','6Г','6Д','6Е','6Ж','6З','6И','6К'];
+const hash=s=>{let h=5381;for(const c of s)h=((h<<5)+h+c.codePointAt(0))|0;return 'h'+(h>>>0).toString(36)};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const TY=window.TYPING,TH=window.THEORY,TERMS=window.TERMS,BANK=window.BANK;
+const today=()=>new Date().toISOString().slice(0,10);
+let users=store.get('users',null);
+if(!users){users={};let sd=7;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
+ const NM=[['Бат','Тэмүүлэн'],['Дорж','Номин'],['Ганбаатар','Анужин'],['Сүх','Билгүүн'],['Очир','Мишээл'],['Болд','Хулан'],['Энх','Төгөлдөр'],['Цэнд','Мөнхзул'],['Пүрэв','Ананд'],['Лхагва','Ариунаа'],['Мөнх','Сондор'],['Дамба','Энхжин'],['Батаа','Гэрэлмаа'],['Нямаа','Тэмүүжин'],['Жамц','Уянга'],['Баяр','Хангай'],['Ганаа','Оюун'],['Түвшин','Марал'],['Төмөр','Батзаяа'],['Ням','Солонго'],['Отгон','Эрдэнэ']];
+ const BW={'Сэргээн санах':.92,'Ойлгох':.82,'Хэрэглэх':.72,'Задлан шинжлэх':.55,'Үнэлэх':.66,'Бүтээх':.5};
+ const att=(unit,ab)=>{const res=BANK[unit].map((q,i)=>{const ok=rnd()<Math.min(.98,BW[q.b]*ab);let ans=null;if(q.t==='choice')ans=ok?q.a:(q.a+1+Math.floor(rnd()*(q.o.length-1)))%q.o.length;else if(q.t==='tf')ans=ok?q.a:!q.a;return {i,ok,ans}});return {score:res.filter(r=>r.ok).length,total:BANK[unit].length,date:'2026-11-1'+Math.floor(rnd()*6),res}};
+ NM.forEach(([o,n],i)=>{const c=i<9?'6А':i<16?'6Б':'6В',ab=.75+rnd()*.5,id='demo'+i;const nt=1+Math.floor(rnd()*3);const typ={};
+  for(let l=1;l<=nt;l++)typ[l]=TY.mn[l-1].ex.map(()=>({stars:rnd()<.85?3:2,wpm:15+Math.floor(rnd()*20),acc:93+Math.floor(rnd()*7)}));
+  const exs={};for(const un of (c==='6В'?['1.1']:['1.1','2.1'])){if(rnd()<.15)continue;const k=1+Math.floor(rnd()*3);exs[un]=[];let a2=ab;for(let j=0;j<k;j++){exs[un].push(att(un,a2));a2+=.08}}
+  const cs={};for(const un in exs)if(rnd()<.7)cs[un]='2026-11-16';
+  users[id]={id,ovog:o,ner:n,cls:c,pw:hash('1234'),demo:1,typing:{mn:typ},theory:{'1.1.1':{score:5,total:6}},exams:exs,certSeen:cs,best:{speed:15+Math.floor(rnd()*20),game:0},days:[]}});
+ store.set('users',users)}
+let exams=store.get('exams',{});
+let teachers=store.get('teachers',null);if(!teachers){teachers={bagsh:{name:'Б.Батцэцэг',pw:hash('1234'),admin:true,classes:CLASSES}};store.set('teachers',teachers)}
+let me=store.get('me',null),tlogin=store.get('tlogin',null);
+const save=()=>{store.set('users',users);store.set('exams',exams);store.set('teachers',teachers);if(typeof opened!=='undefined')store.set('opened',opened)};
+const user=()=>me&&users[me];const teacher=()=>tlogin&&teachers[tlogin];
+function markDay(u){if(!u)return;u.days??=[];const d=today();if(!u.days.includes(d)){u.days.push(d);u.days=u.days.slice(-60)}}
+function streak(u){const s=new Set(u?.days||[]);let n=0,d=new Date();while(s.has(d.toISOString().slice(0,10))){n++;d.setDate(d.getDate()-1)}return n}
+const starsOf=u=>{let n=0;for(const l of Object.values(u.typing||{}))for(const a of Object.values(l))for(const x of a)n+=x?.stars||0;return n};
+const doneCount=u=>{let n=0;for(const l of Object.values(u.typing||{}))for(const a of Object.values(l))n+=a.filter(Boolean).length;return n};
+
+/* ========== ГАРЫН БАЙРЛАЛ ========== */
+// [код, en, EN, mn, MN, хуруу] — хуруу: 0 зүүн чигчий … 7 баруун чигчий, 8 эрхий
+const ROWS=[
+ [['Backquote','`','~','=','+',0],['Digit1','1','!','№','1',0],['Digit2','2','@','-','2',1],['Digit3','3','#','"','3',2],['Digit4','4','$','₮','4',3],['Digit5','5','%',':','5',3],['Digit6','6','^','.','6',4],['Digit7','7','&','_','7',4],['Digit8','8','*',',','8',5],['Digit9','9','(','%','9',6],['Digit0','0',')','?','0',7],['Minus','-','_','е','Е',7],['Equal','=','+','щ','Щ',7],['Backspace','⌫','','⌫','',7,'w18']],
+ [['Tab','Tab','','Tab','',0,'w15'],['KeyQ','q','Q','ф','Ф',0],['KeyW','w','W','ц','Ц',1],['KeyE','e','E','у','У',2],['KeyR','r','R','ж','Ж',3],['KeyT','t','T','э','Э',3],['KeyY','y','Y','н','Н',4],['KeyU','u','U','г','Г',4],['KeyI','i','I','ш','Ш',5],['KeyO','o','O','ү','Ү',6],['KeyP','p','P','з','З',7],['BracketLeft','[','{','к','К',7],['BracketRight',']','}','ъ','Ъ',7],['Backslash','\\','|','\\','|',7,'w15']],
+ [['CapsLock','Caps','','Caps','',0,'w18'],['KeyA','a','A','й','Й',0],['KeyS','s','S','ы','Ы',1],['KeyD','d','D','б','Б',2],['KeyF','f','F','ө','Ө',3],['KeyG','g','G','а','А',3],['KeyH','h','H','х','Х',4],['KeyJ','j','J','р','Р',4],['KeyK','k','K','о','О',5],['KeyL','l','L','л','Л',6],['Semicolon',';',':','д','Д',7],['Quote',"'",'"','п','П',7],['Enter','Enter','','Enter','',7,'w22']],
+ [['ShiftLeft','Shift','','Shift','',0,'w22'],['KeyZ','z','Z','я','Я',0],['KeyX','x','X','ч','Ч',1],['KeyC','c','C','ё','Ё',2],['KeyV','v','V','с','С',3],['KeyB','b','B','м','М',3],['KeyN','n','N','и','И',4],['KeyM','m','M','т','Т',4],['Comma',',','<','ь','Ь',5],['Period','.','>','в','В',6],['Slash','/','?','ю','Ю',7],['ShiftRight','Shift','','Shift','',7,'w22']],
+ [['Space','зай авах','','зай авах','',8,'sp']]];
+const FN=['зүүн гарын чигчий','зүүн гарын ядам','зүүн гарын дунд','зүүн гарын долоовор','баруун гарын долоовор','баруун гарын дунд','баруун гарын ядам','баруун гарын чигчий','эрхий'];
+const FC=['--f0','--f1','--f2','--f3','--f4','--f2','--f1','--f0','--f8'];
+const HOME=['KeyF','KeyJ'];const KMAP={en:{},mn:{}},CODE={};
+ROWS.flat().forEach(([c,el,eu,ml,mu,f])=>{CODE[c]={el,eu,ml,mu,f};
+ if(el.length===1){KMAP.en[el]??={c,s:0};if(eu)KMAP.en[eu]??={c,s:1}}
+ if(ml.length===1){KMAP.mn[ml]??={c,s:0};if(mu)KMAP.mn[mu]??={c,s:1}}});
+for(const L of ['en','mn']){KMAP[L][' ']={c:'Space',s:0};KMAP[L]['\n']={c:'Enter',s:0}}
+function kbHTML(lang){return `<div class="kbin">${ROWS.map(r=>`<div class="kr">${r.map(([c,el,eu,ml,mu,f,w])=>{const lo=lang==='mn'?ml:el,up=lang==='mn'?mu:eu;
+ const big=lo.length===1&&/[a-zа-яөүё]/.test(lo)?lo.toUpperCase():lo;
+ return `<div class="k ${w||''} ${HOME.includes(c)?'home':''}" data-c="${c}" data-f="${f}">${up&&!/[A-ZА-ЯӨҮЁ]/.test(up)?`<small>${esc(up)}</small>`:''}${esc(big)}</div>`}).join('')}</div>`).join('')}</div>`}
+function handsHTML(){const h=[52,64,70,60],r=[60,70,64,52];
+ return `<div class="hands"><div class="hand">${[0,1,2,3].map(i=>`<div class="fg" data-fg="${i}" style="height:${h[i]}px;background:var(${FC[i]})"></div>`).join('')}<div class="fg" data-fg="8" style="height:34px"></div></div><div class="hand"><div class="fg" data-fg="8b" style="height:34px"></div>${[4,5,6,7].map((i,j)=>`<div class="fg" data-fg="${i}" style="height:${r[j]}px;background:var(${FC[i]})"></div>`).join('')}</div></div>`}
+
+/* ========== БИЧИХ ХӨДӨЛГҮҮР ========== */
+let typer=null;
+function Typer(o){const t={...o,i:0,err:0,keys:0,start:0,done:false,wrongAt:new Set()};const box=o.box,chars=[...o.text];
+ let h='',inW=false;chars.forEach((c,i)=>{if(c===' '||c==='\n'){if(inW){h+='</i>';inW=false}h+=c==='\n'?`<span data-i="${i}" class="nl">↵</span><br>`:`<span data-i="${i}"> </span>`}else{if(!inW){h+='<i class="wd">';inW=true}h+=`<span data-i="${i}">${esc(c)}</span>`}});if(inW)h+='</i>';
+ box.innerHTML=h;const spans=box.querySelectorAll('span[data-i]');
+ t.stats=()=>{const min=t.start?((performance.now()-t.start)/60000):0;
+  return {n:t.i,total:chars.length,pct:Math.round(t.i/chars.length*100),wpm:min>0.02?Math.round(t.i/5/min):0,err:t.err,acc:t.keys?Math.max(0,Math.round((t.keys-t.err)/t.keys*100)):100,sec:Math.floor(min*60)}};
+ t.paint=bad=>{box.querySelectorAll('.cur').forEach(s=>s.classList.remove('cur','err'));
+  if(t.i<chars.length){spans[t.i].classList.add('cur');if(bad)spans[t.i].classList.add('err');const s=spans[t.i];if(s.offsetTop>box.scrollTop+box.clientHeight-60||s.offsetTop<box.scrollTop)box.scrollTop=s.offsetTop-40}
+  o.onKey&&o.onKey(chars[t.i])};
+ t.press=ch=>{if(t.done)return;if(!t.start)t.start=performance.now();t.keys++;
+  if(ch===chars[t.i]){spans[t.i].classList.add(t.wrongAt.has(t.i)?'bad':'ok');t.i++;t.paint(false);if(t.i>=chars.length){t.done=true;o.onDone&&o.onDone(t.stats())}}
+  else{t.err++;t.wrongAt.add(t.i);t.paint(true)}};
+ t.paint(false);return t}
+function charFromEvent(e,lang){if(e.key==='Enter')return '\n';if(e.key.length!==1)return null;let ch=e.key;
+ if(lang==='mn'&&/^[\x21-\x7e]$/.test(ch)&&CODE[e.code]){const k=CODE[e.code];const m=e.shiftKey?k.mu:k.ml;if(m&&m.length===1)ch=m}
+ if(lang==='en'&&!/^[\x20-\x7e]$/.test(ch)&&CODE[e.code]){const k=CODE[e.code];const m=e.shiftKey?k.eu:k.el;if(m&&m.length===1)ch=m}
+ return ch}
+document.addEventListener('keydown',e=>{if(!typer||typer.done)return;const tg=e.target.tagName;if(tg==='INPUT'||tg==='SELECT'||tg==='TEXTAREA'||$('#modal').classList.contains('on'))return;
+ if(e.ctrlKey||e.altKey||e.metaKey)return;const ch=charFromEvent(e,typer.lang);if(ch==null)return;e.preventDefault();typer.press(ch)});
+function highlight(lang,ch){document.querySelectorAll('.k.next,.fg.on').forEach(x=>x.classList.remove('next','on'));const hint=$('#hint');
+ if(ch==null){if(hint)hint.textContent='Сайн байна! Дасгал дууслаа.';return}
+ const m=KMAP[lang][ch];if(!m){if(hint)hint.textContent='';return}
+ const k=CODE[m.c];document.querySelector(`.k[data-c="${m.c}"]`)?.classList.add('next');let sh='';
+ const fs=[k.f];if(m.s){const right=k.f>=4;document.querySelector(`.k[data-c="${right?'ShiftLeft':'ShiftRight'}"]`)?.classList.add('next');fs.push(right?0:7);sh=` + Shift (${right?'зүүн':'баруун'} гарын чигчий)`}
+ fs.forEach(f=>{if(f===8)document.querySelectorAll('[data-fg="8"],[data-fg="8b"]').forEach(x=>x.classList.add('on'));else document.querySelector(`[data-fg="${f}"]`)?.classList.add('on')});
+ if(hint)hint.innerHTML=`Дараагийн товч: <em style="background:var(${FC[k.f]})">${ch===' '?'зай авах':ch==='\n'?'Enter':esc(ch)}</em> — ${FN[k.f]} хуруу${sh}`}
+const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+
+/* ========== ДААЛГАВАР (онол ба шалгалтад нэг дор) ========== */
+const TYPE_NM={choice:'Сонгох',tf:'Үнэн/Худал',match:'Харгалзуулах',order:'Эрэмбэлэх',fill:'Нөхөх',create:'Бүтээлч даалгавар'};
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const prep=list=>list.map((q,i)=>{const c={...q,i,ord:q.t==='order'?shuffle(q.o.map((_,j)=>j)):null,ropt:q.t==='match'?shuffle(q.r.map((_,j)=>j)):null};
+ if(q.t==='choice'){const p=shuffle(q.o.map((_,j)=>j));c.perm=p;c.o=p.map(j=>q.o[j]);c.a=p.indexOf(q.a)}return c});
+const norm=s=>String(s||'').toLowerCase().replace(/[\s,.;:!?«»"'()\-]/g,'');
+function qInput(q,k,A){
+ if(q.t==='choice')return q.o.map((o,j)=>`<label class="choice"><input type="radio" name="q${k}" value="${j}" ${A===j?'checked':''}>${esc(o)}</label>`).join('');
+ if(q.t==='tf')return `<label class="choice"><input type="radio" name="q${k}" value="1" ${A===true?'checked':''}>Үнэн</label><label class="choice"><input type="radio" name="q${k}" value="0" ${A===false?'checked':''}>Худал</label>`;
+ if(q.t==='match')return q.l.map((l,j)=>`<div class="mrow"><b>${esc(l)}</b><select data-m="${j}" aria-label="${esc(l)}"><option value="">— сонго —</option>${q.ropt.map(r=>`<option value="${r}" ${A?.[j]===r?'selected':''}>${esc(q.r[r])}</option>`).join('')}</select></div>`).join('');
+ if(q.t==='order')return `<div data-ord>${q.ord.map((o,j)=>`<div class="ord"><b>${j+1}</b><span>${esc(q.o[o])}</span><button class="ghost sm" data-up="${j}" aria-label="Дээш">↑</button><button class="ghost sm" data-dn="${j}" aria-label="Доош">↓</button></div>`).join('')}</div>`;
+ if(q.t==='create')return `<textarea data-tx rows="3" placeholder="Хариултаа бичнэ үү">${esc(A||'')}</textarea>`;
+ return `<input data-tx placeholder="Хариултаа бичнэ үү" value="${esc(A||'')}">`}
+function bindQ(card,q,k,st,rerender){
+ card.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>st.ans[k]=q.t==='tf'?r.value==='1':+r.value);
+ card.querySelectorAll('select[data-m]').forEach(s=>s.onchange=()=>{st.ans[k]??={};st.ans[k][+s.dataset.m]=s.value===''?null:+s.value});
+ const tx=card.querySelector('[data-tx]');if(tx)tx.oninput=()=>st.ans[k]=tx.value;
+ card.querySelectorAll('[data-up],[data-dn]').forEach(b=>b.onclick=()=>{const j=+(b.dataset.up??b.dataset.dn),d=b.dataset.up!=null?-1:1,t=j+d;if(t<0||t>=q.ord.length)return;[q.ord[j],q.ord[t]]=[q.ord[t],q.ord[j]];st.ans[k]=[...q.ord];card.querySelector('[data-ord]').outerHTML=qInput(q,k,st.ans[k]);bindQ(card,q,k,st,rerender)})}
+function isRight(q,A){if(q.t==='choice'||q.t==='tf')return A===q.a;if(q.t==='match')return !!A&&q.l.every((_,j)=>A[j]===j);
+ if(q.t==='order')return (A||q.ord||[]).every((v,j)=>v===j);const raw=String(A||'').trim();
+ if(q.t==='fill')return q.a.some(x=>norm(x)===norm(raw));
+ if(q.t==='create'){if(!raw)return false;if(q.chk)return new RegExp(q.chk).test(raw);const low=raw.toLowerCase();if(q.kw)return q.kw.filter(w=>low.includes(w.toLowerCase())).length>=(q.min||1);return raw.length>=(q.min||5)}return false}
+const showAns=(q,A)=>{if(q.t==='choice')return A==null?'—':q.o[A];if(q.t==='tf')return A==null?'—':A?'Үнэн':'Худал';if(q.t==='match')return q.l.map((l,j)=>`${l} – ${A?.[j]!=null?q.r[A[j]]:'—'}`).join(', ');if(q.t==='order')return (A||[]).map(v=>q.o[v]).join(' → ');return A||'—'};
+const rightAns=q=>q.t==='choice'?q.o[q.a]:q.t==='tf'?(q.a?'Үнэн':'Худал'):q.t==='match'?q.l.map((l,j)=>`${l} – ${q.r[j]}`).join(', '):q.t==='order'?q.o.join(' → '):q.t==='fill'?q.a[0]:(q.sample||'');
+
+/* ========== ТҮГЖЭЭ, БАГШИЙН БИЧВЭР ========== */
+const guest={typing:{},theory:{},exams:{},best:{},days:[]};
+const prog=()=>user()||guest;
+const free=()=>!!teacher()||!!user()?.free;
+const LOCK='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2.5" fill="none"/></svg>';
+const exStars=(lang,key,i)=>prog().typing?.[lang]?.[key]?.[i]?.stars||0;
+const lesDone=(lang,les)=>TY[lang][les-1].ex.every((_,i)=>exStars(lang,les,i)>=3);
+let opened=store.get('opened',{})||{};
+const tOpen=k=>{const u=user();return !!(u&&opened[u.cls]?.[k])};
+const lesOpen=(lang,les)=>free()||(tOpen(lang+'-'+les)&&(les===1||lesDone(lang,les-1)));
+const lesWhy=(lang,les)=>!tOpen(lang+'-'+les)?'Багш нээгээгүй':'Өмнөх хичээлээ 3 одтой хий';
+const exOpen=(lang,les,i)=>free()||(lesOpen(lang,les)&&(i===0||exStars(lang,les,i-1)>=3));
+const thOpen=id=>free()||tOpen(id);
+let ttexts=store.get('ttexts',[]);
+const ttList=lang=>ttexts.filter(t=>t.lang===lang);
+function normText(s,lang){s=String(s||'').replace(/\r/g,'').replace(/[“”„«»]/g,'"').replace(/[‘’`]/g,"'").replace(/[—–]/g,'-').replace(/…/g,'...').replace(/\t/g,' ');
+ s=s.split('\n').map(l=>l.replace(/ +/g,' ').trim()).filter(Boolean).join('\n');
+ if(lang==='mn')s=s.replace(/!/g,'.').replace(/;/g,',');
+ const bad=new Set();s=[...s].filter(c=>{if(KMAP[lang][c])return true;bad.add(c);return false}).join('').replace(/ +/g,' ');return {text:s.trim(),bad:[...bad]}}
+function splitText(t,max=400){const lines=t.split('\n'),out=[];let cur='';for(const l of lines){if(cur&&(cur+'\n'+l).length>max){out.push(cur);cur=l}else cur=cur?cur+'\n'+l:l}if(cur)out.push(cur);
+ return out.flatMap(p=>{if(p.length<=max)return [p];const ws=p.split(' '),r=[];let c='';for(const w of ws){if(c&&(c+' '+w).length>max){r.push(c);c=w}else c=c?c+' '+w:w}if(c)r.push(c);return r})}
+function getL(c){if(c.src==='x')return TY.extra[c.les];if(c.src==='tt'){const ex=[];ttList(c.lang).forEach(t=>{const ps=splitText(t.text);ps.forEach((p,j)=>ex.push([ps.length>1?`${t.title} (${j+1}/${ps.length})`:t.title,p,j===ps.length-1?t.q:null]))});return {t:'Багшийн эх бичвэр',k:'',ex}}return TY[c.lang][c.les-1]}
+const keyOf=c=>c.src==='x'?'x'+c.les:c.src==='tt'?'tt':c.les;
+
+/* ========== ХУУДСУУД ========== */
+const V={};
+const VAL={'Эв нэгдэл':'--s1','Эерэг хандлага':'--s2','Тасралтгүй хөгжил':'--s3','Үүрэг хариуцлага':'--s4','Ойлгож уншдаг':'--s3','Бусдыг хүндэлдэг':'--s1','Ухаалаг утсыг зөв зохистой хэрэглэдэг':'--s4'};
+function classStars(){const m=Object.fromEntries(CLASSES.map(c=>[c,0]));for(const u of Object.values(users))if(m[u.cls]!=null)m[u.cls]+=starsOf(u);return m}
+V.home=()=>{const u=user(),cs=classStars(),mx=Math.max(1,...Object.values(cs));
+ return `<section class="band"><div class="wrap hero">
+ <div><span class="pill">6-р анги · Мэдээллийн технологи</span><h1 style="margin-top:12px">Арван хуруугаараа хурдан, зөв бичиж сурцгаая!</h1>
+ <p>Тоншуул модоо тоншдог шиг, чи товчлуураа зөв хуруугаараа тоншиж сурна. Бичиж сурах, хичээлээ давтах, тоглох, шалгалт өгөх — бүгд энд.</p>
+ <div class="row"><button onclick="location.hash='typing'">Бичиж эхлэх</button><button class="ghost" onclick="location.hash='theory'">Онолын хичээл</button></div>
+ ${u?(()=>{const o=opened[u.cls]||{},th=TH.filter(x=>o[x.id]),ty=TY.mn.map((l,i)=>[i+1,l]).filter(([n])=>o['mn-'+n]);return `<div class="card" style="margin-top:14px;padding:14px 16px"><b class="small">Багшийн танай ангид нээсэн хичээлүүд</b>${th.length||ty.length?`<div class="row" style="margin-top:8px;gap:6px">${th.map(x=>`<a class="pill" href="#${thId(x.id)}" style="text-decoration:none">${u.ev?.[x.id]?'✓':u.ltest?.[x.id]?'◐':'•'} Онол ${x.id}</a>`).join('')}${ty.map(([n])=>`<a class="pill" href="#typing" style="text-decoration:none">⌨ Бичих ${n}</a>`).join('')}</div>`:'<p class="small mut" style="margin:6px 0 0">Багш хараахан хичээл нээгээгүй байна.</p>'}</div>`})():''}${u?`<p class="small" style="margin-top:14px">Сайн уу, <b>${esc(u.ner)}</b>! ${doneCount(u)} дасгал · ${starsOf(u)} од · Дараалсан <b>${streak(u)}</b> өдөр · Шилдэг хурд ${u.best?.speed||0} үг/мин</p>`:''}</div>
+ <svg viewBox="0 0 420 400" role="img" aria-label="Товчлуур тоншиж буй тоншуул">
+  <defs><linearGradient id="bark" x1="0" x2="1"><stop offset="0" stop-color="#8a5a3b"/><stop offset=".6" stop-color="#a8714a"/><stop offset="1" stop-color="#6e452c"/></linearGradient></defs>
+  <circle cx="300" cy="90" r="58" fill="#ffc93c" opacity=".9"/><ellipse cx="210" cy="388" rx="200" ry="22" fill="#2f9e62" opacity=".35"/>
+  <rect x="250" y="0" width="110" height="392" rx="20" fill="url(#bark)"/><path d="M270 60 q10 20 0 40 M330 150 q-12 24 0 48 M285 250 q10 22 0 44" stroke="#5a3822" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(160 40)"><ellipse cx="60" cy="60" rx="70" ry="44" fill="#3bb273"/><ellipse cx="30" cy="40" rx="40" ry="26" fill="#57c98b"/></g>
+  <g transform="translate(205 170)"><rect width="60" height="56" rx="12" fill="#1f2550"/><rect x="5" y="4" width="50" height="40" rx="9" fill="#fff"/><text x="30" y="33" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="26" fill="#1f2550">Р</text></g>
+  <g transform="translate(70 120) scale(2.4)"><use href="#bird"/></g>
+  <g fill="#ffc93c" font-family="Nunito" font-weight="900" font-size="22"><text x="190" y="160">тон!</text><text x="168" y="250">тон!</text></g>
+  <g transform="translate(20 300)"><rect width="200" height="64" rx="14" fill="#1f2550"/>${['--s1','--s2','--s3','--s4','--f4'].map((c,i)=>`<rect x="${12+i*37}" y="12" width="30" height="40" rx="7" fill="var(${c})"/>`).join('')}</g>
+ </svg></div></section>
+ <section class="band" style="padding-top:0"><div class="wrap"><div class="mission"><div class="mark">“</div><div>
+  <span class="pill">130-р сургуулийн эрхэм зорилго</span>
+  <p class="q" style="margin:10px 0"><b style="color:var(--s1)">Хамтын бүтээлч</b> үйл ажиллагаанд тулгуурлан, <b style="color:var(--s3)">дижитал шилжилтийг</b> үр дүнтэй ашиглаж хүүхдийн хөгжил, <b style="color:var(--s2)">сургалтын чанарыг</b> эрхэмлэнэ.</p></div></div></div></section>
+ <section class="band" style="padding-top:0"><div class="wrap"><h2>Хичээлийн жилийн зорилго</h2>
+  <div class="goals">
+  ${[['1','--s3','Ойлгож уншдаг','Уншсан зүйлээ ойлгож, асуултад зөв хариулж сурна. Үлгэр, эх бичвэр бичээд утгыг нь бодоорой.','typing','Эх бичвэр бичих'],
+     ['2','--s1','Бусдыг хүндэлдэг','Цахим орчинд ч бусдыг хүндэлнэ. Найздаа эерэг үг бичиж, бусдын ажлыг хүндэтгэнэ.','th-233','Цахим ёс зүй'],
+     ['3','--s4','Ухаалаг утсыг зөв зохистой хэрэглэдэг','Утсаа хэмжээтэй хэрэглэж, 20 минут тутамд нүдээ амраана. Хичээлийн үеэр утсаа унтраана.','th-126','Эрүүл дадал']].map(([n,c,t,d,h,b])=>`<div class="goal" style="--c:var(${c})"><div class="n">${n}</div><h3>${t}</h3><p class="mut" style="margin:0 0 12px">${d}</p><a class="btn ghost" href="#${h}">${b} →</a></div>`).join('')}
+  </div></div></section>
+ <section class="band" style="padding-top:0"><div class="wrap"><h2>Үнэт зүйл</h2>
+  <div class="vals">
+  ${[['01','--s1','Эв нэгдэл','Анги бүрийн цуглуулсан од нэг модонд нийлнэ. Хамтдаа ахина.',`${Object.values(cs).reduce((a,b)=>a+b,0)} од нийт`],
+     ['02','--s2','Эерэг хандлага','Алдаа бол суралцах боломж. Урам өгөх үг, дахин оролдох 3 боломж.','3 оролдлого'],
+     ['03','--s3','Тасралтгүй хөгжил','Өдөр бүр бага ч гэсэн дасгал хийж, хувийн шилдэгээ ахиулна.',u?`${streak(u)} өдөр дараалан`:'Өдөр бүр 10 минут'],
+     ['04','--s4','Үүрэг хариуцлага','Өөрийн нууц үг, шударга шалгалт, цахим иргэний амлалт.','Цахим иргэний амлалт']].map(([n,c,t,d,s])=>`<div class="val" style="--c:var(${c})"><b style="opacity:.85">${n}</b><h3>${t}</h3><p>${d}</p><div class="stat2">${s}</div></div>`).join('')}
+  </div></div></section>
+ <section class="band" style="padding-top:0"><div class="wrap"><div class="card tree"><h3>Ангийн тоншуулын мод · Эв нэгдэл</h3><p class="small mut" style="margin-top:0">Анги бүрийн сурагчдын бичих дасгалаас цуглуулсан нийт од</p>
+  ${CLASSES.map(c=>`<div class="r"><b>${c}</b><div class="bar2"><i style="width:${Math.round(cs[c]/mx*100)}%"></i></div><span class="v">${cs[c]} од</span></div>`).join('')}
+  </div></div></section>
+ <section class="band" style="padding-top:0"><div class="wrap tiles">
+ ${[['typing','Бичих хичээл','Монгол, англи гар','--red'],['theory','Онолын хичээл','Онол, жишээ, дасгал','--s4'],['terms','Нэр томьёо','Шинэ үг, команд','--s2'],['game','Тоглоом','Тоншуулын бороо','--s3'],['speed','Хурдны тест','1 минутад хэдэн үг?','--f4'],['exam','Шалгалт','Нэгжийн шалгалт','--s1']].map(([h,b,s,c])=>`<a class="tile" href="#${h}"><i style="background:var(${c})"></i><b>${b}</b><span>${s}</span></a>`).join('')}
+ </div></section>`};
+
+/* ---------- Бичих хичээл ---------- */
+let tLang=store.get('tLang','mn');
+V.typing=()=>{const P=prog(),tt=ttList(tLang);return `<section class="band"><div class="wrap">
+ <h2>Бичих хичээлүүд</h2><p class="mut">Багшийн нээсэн хичээлүүдийг дарааллаар нь хийгээрэй. Дасгалаа 3 одтой хийвэл дараагийнх нь нээгдэнэ.</p>
+ ${!user()&&!teacher()?'<p class="small" style="background:var(--soft);padding:10px 14px;border-radius:14px">Нэвтэрч орвол ахиц чинь хадгалагдана.</p>':''}
+ <div class="tabs" style="margin:14px 0"><button class="${tLang==='mn'?'on':''}" data-lang="mn">Монгол гар</button><button class="${tLang==='en'?'on':''}" data-lang="en">English keyboard</button></div>
+ <div class="lessons">${TY[tLang].map((l,i)=>{const n=i+1,op=lesOpen(tLang,n);const st=P.typing?.[tLang]?.[n]||[];const stars=st.reduce((a,b)=>a+(b?.stars||0),0),done=st.filter(x=>x?.stars>=3).length;
+  return `<button class="les ${op?'':'lock'}" ${op?`data-les="${n}"`:'disabled'}><span class="n ${done>=l.ex.length?'done':''}">${op?n:LOCK}</span><span>${n}. ${esc(l.t)}<small>${op?`${done}/${l.ex.length} дасгал${stars?` · ★ ${stars}`:''}`:(user()?lesWhy(tLang,n):'Түгжээтэй')}</small></span></button>`}).join('')}</div>
+ ${(tLang==='mn'||tt.length)?`<h3 style="margin-top:28px">Нэмэлт дасгал</h3><div class="lessons">${tLang==='mn'?TY.extra.map((l,i)=>`<button class="les" data-x="${i}"><span class="n" style="background:var(--s2);color:#fff">+</span><span>${esc(l.t)}<small>${l.ex.length} дасгал</small></span></button>`).join(''):''}${tt.length?`<button class="les" data-tt="1"><span class="n" style="background:var(--s1);color:#fff">Б</span><span>Багшийн эх бичвэр<small>${tt.length} бичвэр</small></span></button>`:''}</div>`:''}
+ </div></section>`};
+V.typing.bind=()=>{document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{tLang=b.dataset.lang;store.set('tLang',tLang);render()});
+ document.querySelectorAll('[data-les]').forEach(b=>b.onclick=()=>{const n=+b.dataset.les;let e=0;while(e<TY[tLang][n-1].ex.length-1&&exStars(tLang,n,e)>=3)e++;cur={lang:tLang,src:'les',les:n,ex:e};location.hash='type'});
+ document.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{cur={lang:'mn',src:'x',les:+b.dataset.x,ex:0};location.hash='type'});
+ document.querySelectorAll('button[data-tt]').forEach(b=>b.onclick=()=>{cur={lang:tLang,src:'tt',les:0,ex:0};location.hash='type'})};
+let cur=null;const opt=store.get('opt',{kb:true,color:true,hands:true});
+const exOk=(c,i)=>c.src!=='les'||exOpen(c.lang,c.les,i);
+V.type=()=>{if(!cur)return V.typing();const L=getL(cur),ex=L.ex;if(!ex.length){cur=null;return V.typing()}if(cur.ex>=ex.length)cur.ex=0;if(!exOk(cur,cur.ex))cur.ex=0;const key=keyOf(cur);
+ const nk=[...(L.k||'')].filter(c=>KMAP[cur.lang][c]);
+ return `<section class="band"><div class="wrap">
+ <div class="row" style="justify-content:space-between"><div><span class="pill">${cur.lang==='mn'?'Монгол':'English'} · ${cur.src==='les'?cur.les+'-р хичээл · ':''}${esc(L.t)}</span><h2 style="margin-top:8px">${esc(ex[cur.ex][0])}</h2></div><button class="ghost" onclick="location.hash='typing'">← Хичээлүүд</button></div>
+ ${nk.length?`<div class="newkeys"><b class="small">Шинэ товч:</b>${nk.map(c=>{const m=KMAP[cur.lang][c],f=CODE[m.c].f;return `<span style="background:var(${FC[f]})">${esc(c)} — ${FN[f]}${m.s?' + Shift':''}</span>`}).join('')}</div>`:''}
+ <div class="tabs">${ex.map((e,i)=>{const op=exOk(cur,i),s=exStars(cur.lang,key,i);return `<button class="${i===cur.ex?'on':''}" ${op?`data-ex="${i}"`:'disabled'} title="${esc(e[0])}">${op?i+1:LOCK}${s?' '+'★'.repeat(s):''}</button>`}).join('')}</div>
+ <div class="stats">${[['n','Тэмдэгт'],['pct','Явц %'],['wpm','Хурд (үг/мин)'],['err','Алдаа'],['acc','Нарийвчлал %'],['sec','Хугацаа']].map(([k,l])=>`<div class="stat"><b id="s-${k}">0</b><span>${l}</span></div>`).join('')}</div>
+ <div class="text" id="tbox" aria-label="Бичих текст"></div><div class="hint" id="hint"></div>
+ <div class="opts"><label><input type="checkbox" id="o-kb" ${opt.kb?'checked':''}> Дэлгэцэн дээрх гарыг харуулах</label><label><input type="checkbox" id="o-color" ${opt.color?'checked':''}> Хурууны өнгө</label><label><input type="checkbox" id="o-hands" ${opt.hands?'checked':''}> Гарын хуруу</label></div>
+ <div id="kbwrap" ${opt.kb?'':'hidden'}><div class="kb ${opt.color?'color':''}" id="kb">${kbHTML(cur.lang)}</div><div id="hw" ${opt.hands?'':'hidden'}>${handsHTML()}</div></div>
+ <p class="note">${cur.lang==='mn'?'Компьютерын хэлийг Alt+Shift-ээр монгол болгоорой. ':''}Буруу дарвал улаан болно — зөв товчоо дартал хүлээнэ. Дэлгэц рүү харж бичээрэй. ↵ — Enter.</p></div></section>`};
+V.type.bind=()=>{if(!cur)return V.typing.bind();const ex=getL(cur).ex;
+ document.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{cur.ex=+b.dataset.ex;render()});
+ const tick=()=>{if(!typer)return;const s=typer.stats();for(const k in s){const el=$('#s-'+k);if(el)el.textContent=k==='n'?`${s.n}/${s.total}`:k==='sec'?fmt(s.sec):s[k]}};
+ typer=Typer({box:$('#tbox'),text:ex[cur.ex][1],onKey:ch=>{highlight(cur.lang,ch);tick()},onDone:s=>{tick();finishEx(s)}});typer.lang=cur.lang;
+ clearInterval(window._tk);window._tk=setInterval(tick,500);
+ const o=(id,k,fn)=>{$(id).onchange=e=>{opt[k]=e.target.checked;store.set('opt',opt);fn(e.target.checked);highlight(cur.lang,[...ex[cur.ex][1]][typer.i])}};
+ o('#o-kb','kb',v=>$('#kbwrap').hidden=!v);o('#o-color','color',v=>$('#kb').classList.toggle('color',v));o('#o-hands','hands',v=>$('#hw').hidden=!v)};
+const PRAISE=['Гайхалтай!','Мундаг байна!','Яг тоншуул шиг!'];
+function finishEx(s){const stars=s.acc>=97?3:s.acc>=92?2:1;const ex=getL(cur).ex,E=ex[cur.ex],key=keyOf(cur);
+ const P=prog();P.typing??={};P.typing[cur.lang]??={};const a=P.typing[cur.lang][key]??=[];const old=a[cur.ex];if(!old||old.stars<stars||(old.stars===stars&&old.wpm<s.wpm))a[cur.ex]={stars,wpm:s.wpm,acc:s.acc};if(user()){markDay(user());save()}
+ const last=cur.ex>=ex.length-1,cq=E[2],need=cur.src==='les'&&stars<3&&!free();
+ const nextLes=cur.src==='les'&&last&&cur.les<TY[cur.lang].length&&lesOpen(cur.lang,cur.les+1);
+ modal(`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=stars?'':'off'}">★</span>`).join('')}</div><h2>${stars===3?PRAISE[Math.floor(Math.random()*3)]:stars===2?'Сайн байна!':'Алдаа бол суралцах боломж!'}</h2>
+ <p>Хурд: <b>${s.wpm}</b> үг/мин · Нарийвчлал: <b>${s.acc}%</b> · Алдаа: <b>${s.err}</b> · Хугацаа: <b>${fmt(s.sec)}</b></p>
+ ${cq?`<div class="qcard" style="text-align:left"><span class="pill">Ойлгож уншъя</span><p style="font-weight:700;margin:8px 0">${esc(cq.q)}</p><div class="row">${cq.o.map((o,j)=>`<button class="ghost sm" data-cq="${j}">${esc(o)}</button>`).join('')}</div><div class="fb" id="cqf"></div></div>`:''}
+ ${need?`<p class="small" style="background:var(--soft);padding:10px 14px;border-radius:14px">Дараагийн дасгал нээгдэхэд <b>3 од</b> хэрэгтэй — 97%-иас дээш нарийвчлалтай бич. Яаралгүй, зөв бичээд дахин оролдоорой!</p>`:''}
+ ${user()||teacher()?'':'<p class="small mut">Нэвтэрсэн бол ахиц чинь хадгалагдана.</p>'}
+ <div class="row" style="justify-content:center">${need?`<button id="m-again">Дахин бичих</button>`:`<button class="ghost" id="m-again">Дахин бичих</button>${!last?`<button id="m-next">Дараагийн дасгал →</button>`:nextLes?`<button class="leaf" id="m-next">Дараагийн хичээл →</button>`:`<button class="leaf" id="m-next">Дууслаа ✓</button>`}`}</div>`);
+ document.querySelectorAll('[data-cq]').forEach(b=>b.onclick=()=>{const ok=+b.dataset.cq===cq.a;$('#cqf').className='fb '+(ok?'ok':'no');$('#cqf').textContent=ok?'Зөв! Чи ойлгож уншжээ.':`Зөв хариулт: ${cq.o[cq.a]}. Дахин уншаад үзээрэй.`});
+ $('#m-again').onclick=()=>{closeModal();render()};const nb=$('#m-next');if(nb)nb.onclick=()=>{closeModal();if(!last){cur.ex++;render()}else if(nextLes){cur={lang:cur.lang,src:'les',les:cur.les+1,ex:0};render()}else location.hash='typing'}}
+
+/* ---------- Онол ---------- */
+const UNITS=[['1.1','Мэдээлэл, объект, загвар','I'],['1.2','Компьютер','I'],['2.1','Бичвэр мэдээлэл боловсруулах технологи','II'],['2.2','Зураг боловсруулах технологи','II'],['2.3','Цахим харилцаа, интернэт технологи','II']];
+const TAGS={h:['t-h','Асуудал'],o:['t-o','Ойлгохуй'],m:['t-m','Мэдэхүй'],c:['t-c','Чадахуй'],x:['t-x','Хэрэглэхүй'],a:['t-a','Анхаарахуй']};
+const thId=id=>'th-'+id.replace(/\./g,'');
+V.theory=()=>{const P=prog();return `<section class="band"><div class="wrap"><h2>Онолын хичээлүүд</h2><p class="mut">Багшийн танай ангид нээсэн хичээлүүд нээлттэй байна. Хичээл бүрийн төгсгөлд дүгнэлт шалгалт, өөрийн үнэлгээгээ хийгээрэй.</p>
+ ${UNITS.map(([n,t,b])=>`<h3 style="margin-top:24px">${b} бүлэг · ${n}. ${t}</h3><div class="lessons">${TH.filter(x=>x.u===n).map(x=>{const r=P.theory?.[x.id],op=thOpen(x.id);return op?`<a class="les" href="#${thId(x.id)}" style="text-decoration:none"><span class="n ${r?'done':''}">${x.id.split('.').pop()}</span><span>${esc(x.t)}<small>${x.id}${r?` · ${r.score}/${r.total} зөв`:''}</small></span></a>`:`<button class="les lock" disabled><span class="n">${LOCK}</span><span>${esc(x.t)}<small>${x.id} · Багш нээгээгүй</small></span></button>`}).join('')}</div>`).join('')}
+ </div></section>`};
+
+/* ---------- Хичээлийн дүгнэлт шалгалт ---------- */
+const LT=window.LTEST||{},LT_SEC=180;let ltSt=null;
+const ltCls=p=>p>=80?'lt-g':p>=60?'lt-y':'lt-r';
+const ltAns=q=>q.t==='choice'?q.o[q.a]:q.t==='tf'?(q.a?'Үнэн':'Худал'):q.t==='fill'?q.a[0]:'';
+function ltHTML(x){const L=LT[x.id];if(!L)return '';const u=user(),r=u?.ltest?.[x.id];
+ let h=`<div class="sec" id="ltsec"><h3><span class="tag t-c">Дүгнэлт шалгалт</span>Хичээлийн дүгнэлт шалгалт</h3>`;
+ if(r){const p=Math.round(r.score/r.total*100);
+  h+=`<div class="ltres"><span class="big">${r.score}/${r.total}</span><span><span class="ltc ${ltCls(p)}">${p}%</span><br><span class="small mut">${r.date} · ${p>=80?'Маш сайн! Хичээлээ сайн ойлгожээ.':p>=60?'Сайн байна. Алдсан асуултаа дахин уншаарай.':'Хичээлээ дахин уншиж, алдсан асуултаа ойлгоорой.'}</span></span></div>`;
+  h+=(r.res||[]).map((a,k)=>{const q=L[a.i];if(!q)return '';return `<div class="qcard"><div class="top"><b>${k+1}.</b><span class="pill">${a.ok?'✓ Зөв':'✗ Буруу'}</span></div><p style="margin:0 0 6px;font-weight:700">${esc(q.q)}</p>${a.ok?'':`<p class="small" style="margin:0">Таны хариулт: ${esc(a.my||'—')}</p>`}<p class="small" style="margin:4px 0 0"><b>Зөв хариулт:</b> ${esc(ltAns({...q,a:q.a}))}. <span class="mut">${esc(q.e||'')}</span></p></div>`}).join('');
+  return h+'</div>'}
+ if(!u)return h+`<p class="small mut">Шалгалтын дүн хадгалагдахын тулд <a href="#login">нэвтэрнэ үү</a>.</p></div>`;
+ if(!prog().theory?.[x.id])return h+`<p class="small mut" style="margin:0">🔒 Дээрх бататгах дасгалуудаа бүгдийг нь шалгасны дараа шалгалт нээгдэнэ.</p></div>`;
+ if(!ltSt||ltSt.id!==x.id)return h+`<p class="small" style="margin-top:0">${L.length} асуулт · ${LT_SEC/60} минут. Эхлүүлмэгц цаг явна, <b>нэг л удаа</b> өгнө. Хариугаа сайн бодоорой.</p><button id="ltstart" class="leaf">Шалгалт эхлүүлэх</button></div>`;
+ return h+`<div class="lttimer"><span>Хичээлийн дүгнэлт шалгалт</span><span id="lttime">${ltLeft()}</span></div>${ltSt.qs.map((q,k)=>`<div class="qcard" data-lk="${k}"><div class="top"><b>${k+1}.</b><span class="pill">${TYPE_NM[q.t]}</span></div><p style="margin:0 0 8px;font-weight:700">${esc(q.q)}</p><div data-in>${qInput(q,'l'+k,ltSt.ans[k])}</div></div>`).join('')}<button class="leaf" id="ltend">Шалгалтаа илгээх</button></div>`}
+function ltLeft(){const s=Math.max(0,Math.ceil((ltSt.end-Date.now())/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function ltMount(x){const w=$('#ltwrap');if(!w)return;w.innerHTML=ltHTML(x);ltBind(x)}
+function ltSubmit(x){const u=user();if(!u||!ltSt||ltSt.id!==x.id)return;clearInterval(window._ltt);
+ const res=ltSt.qs.map((q,k)=>{const A=ltSt.ans[k];let my='';if(q.t==='choice')my=A!=null?q.o[A]:'';else if(q.t==='tf')my=A==null?'':A?'Үнэн':'Худал';else my=String(A??'');return {i:q.i,ok:isRight(q,A),my}});
+ u.ltest??={};u.ltest[x.id]={score:res.filter(r=>r.ok).length,total:res.length,date:today(),sec:Math.round((Date.now()-ltSt.start)/1000),res};
+ ltSt=null;markDay(u);save();ltMount(x);evMount(x)}
+function ltBind(x){const st=$('#ltstart');if(st)st.onclick=()=>{ltSt={id:x.id,qs:prep(LT[x.id]),ans:{},start:Date.now(),end:Date.now()+LT_SEC*1000};ltMount(x)};
+ if(!ltSt||ltSt.id!==x.id)return;
+ if(Date.now()>=ltSt.end){ltSubmit(x);return}
+ document.querySelectorAll('.qcard[data-lk]').forEach(c=>{const k=+c.dataset.lk;bindQ(c,ltSt.qs[k],k,ltSt)});
+ $('#ltend').onclick=()=>{const miss=ltSt.qs.filter((_,k)=>ltSt.ans[k]==null||ltSt.ans[k]==='').length;if(miss&&!confirm(`${miss} асуултад хариулаагүй байна. Илгээх үү?`))return;ltSubmit(x)};
+ clearInterval(window._ltt);window._ltt=setInterval(()=>{const t=$('#lttime');if(!t||!ltSt){clearInterval(window._ltt);return}t.textContent=ltLeft();if(Date.now()>=ltSt.end)ltSubmit(x)},500)}
+
+/* ---------- Багш: хичээл нээх, хаах ---------- */
+function opHTML(){const o=opened[tCls]||{};
+ const row=(k,l,sub)=>`<div class="oprow"><span><b>${esc(l)}</b><small>${sub}</small></span><span class="row" style="gap:8px"><span class="opst ${o[k]?'on':'off'}">${o[k]?'Нээлттэй':'Хаалттай'}</span><button class="${o[k]?'ghost':'leaf'} sm" data-optg="${esc(k)}">${o[k]?'🔒 Хаах':'🔓 Нээх'}</button></span></div>`;
+ const grp=(title,items)=>{const all=items.length&&items.every(i=>o[i[0]]);return `<div class="card" style="margin-bottom:12px"><div class="row" style="justify-content:space-between"><h3 style="margin:0">${title}</h3><button class="ghost sm" data-opall="${esc(items.map(i=>i[0]).join('|'))}" data-v="${all?0:1}">${all?'Бүгдийг хаах':'Бүгдийг нээх'}</button></div>${items.map(i=>row(...i)).join('')}</div>`};
+ return `<p class="mut" style="margin-top:0">${tCls} ангийн сурагчид зөвхөн таны нээсэн хичээлийг үзнэ. Хичээлийн үеэр нээж, дараа нь хааж болно. Нээх, хаахад сурагчдын дэлгэц шууд шинэчлэгдэнэ.</p>
+ <div class="grid" style="align-items:start"><div>${UNITS.map(([n,t])=>grp(`Онол · ${n}. ${esc(t)}`,TH.filter(x=>x.u===n).map(x=>[x.id,`${x.id} ${x.t}`,'Онол, дасгал, дүгнэлт шалгалт, үнэлгээ']))).join('')}</div>
+ <div>${grp('Бичих хичээл · Монгол гар',TY.mn.map((l,i)=>['mn-'+(i+1),`${i+1}. ${l.t}`,`${l.ex.length} дасгал`]))}${grp('Бичих хичээл · English keyboard',TY.en.map((l,i)=>['en-'+(i+1),`${i+1}. ${l.t}`,`${l.ex.length} дасгал`]))}</div></div>
+ <p class="note">Бичих хичээл нь багш нээсэн ч өмнөх хичээлээ 3 одтой хийсэн сурагчид л нээгдэнэ. Нэмэлт дасгал, тоглоом, хурдны тест үргэлж нээлттэй.</p>`}
+let ltSel=null;
+let ltMode='class',ltAuto=true;
+function ltTabHTML(){const studs=Object.values(users).filter(u=>u.cls===tCls).sort((a,b)=>(a.ovog+a.ner).localeCompare(b.ovog+b.ner));
+ const ids=TH.map(t=>t.id).filter(id=>LT[id]);const N=studs.length,o=opened[tCls]||{};
+ const took=id=>studs.map(u=>u.ltest?.[id]).filter(Boolean),evs=id=>studs.map(u=>u.ev?.[id]).filter(Boolean);
+ const pc=r=>Math.round(r.score/r.total*100),P=(v,n)=>n?Math.round(v/n*100):0;
+ if(ltAuto||!ids.includes(ltSel)){const op=ids.filter(id=>o[id]),used=ids.filter(id=>took(id).length||evs(id).length);ltSel=op.length?op[op.length-1]:used.length?used[used.length-1]:ids[0]}
+ const x=TH.find(t=>t.id===ltSel),L=LT[ltSel]||[],T=took(ltSel),E=evs(ltSel),can=evCan(x);
+ const avg=T.length?Math.round(T.reduce((a,r)=>a+pc(r),0)/T.length):null,star=E.length?(E.reduce((a,e)=>a+e.rate,0)/E.length).toFixed(1):'—';
+ const qa=L.map((q,i)=>{const rs=T.map(r=>(r.res||[]).find(a=>a.i===i)).filter(Boolean);const ok=rs.filter(a=>a.ok).length;return {q,p:rs.length?Math.round(ok/rs.length*100):null}});
+ const hard=qa.filter(a=>a.p!=null).sort((a,b)=>a.p-b.p)[0];
+ const cs=can.map((c,i)=>{const n=[0,1,2].map(j=>E.filter(e=>e.self[i]===j).length);return {c,n,low:P(n[0],E.length),mid:P(n[1],E.length),ok:P(n[2],E.length)}});
+ const weak=[...cs].sort((a,b)=>b.low-a.low)[0],clr=[0,1,2].map(j=>E.filter(e=>e.clear===j).length),notes=E.map(e=>e.note).filter(Boolean);
+ const bar=(p,c)=>`<div class="qbar"><span style="width:${p||0}%;background:${c}"></span></div>`;
+ const head=`<div class="row" style="justify-content:space-between;margin-bottom:12px"><div class="row"><label for="ltsel" style="margin:0">Хичээл</label><select id="ltsel" style="width:auto;max-width:100%">${ids.map(id=>`<option value="${id}" ${id===ltSel?'selected':''}>${o[id]?'🔓 ':''}${id} ${esc(TH.find(t=>t.id===id).t)}</option>`).join('')}</select></div>
+  <div class="tabs"><button data-ltm="class" class="${ltMode==='class'?'on':''}">👥 Анги нийтээр (нэргүй)</button><button data-ltm="each" class="${ltMode==='each'?'on':''}">👤 Сурагч бүрээр</button></div></div>
+  <div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:12px"><div class="stat"><b>${T.length}/${N}</b><span>Дүгнэлт шалгалт өгсөн</span></div><div class="stat"><b>${avg!=null?avg+'%':'—'}</b><span>Шалгалтын дундаж</span></div><div class="stat"><b>${E.length}/${N}</b><span>Үнэлгээ өгсөн</span></div><div class="stat"><b>${star} ★</b><span>Хичээлийн дундаж үнэлгээ</span></div></div>`;
+ if(ltMode==='each'){
+  return head+`<div class="card scroll" style="margin-bottom:12px"><h3 style="margin-top:0">${esc(ltSel)} ${esc(x.t)} — сурагч бүрээр</h3><table><thead><tr><th>Овог нэр</th><th>Шалгалт</th>${can.map((_,i)=>`<th title="${esc(can[i])}">Би чадна ${i+1}</th>`).join('')}<th>Од</th><th>Ойлгомж</th><th>Санал</th></tr></thead><tbody>
+  ${studs.map(u=>{const r=u.ltest?.[ltSel],e=u.ev?.[ltSel];return `<tr><td><b>${esc(u.ovog)} ${esc(u.ner)}</b></td><td>${r?`<span class="ltc ${ltCls(pc(r))}">${r.score}/${r.total}</span>`:'<span class="mut">—</span>'}</td>${can.map((_,i)=>`<td style="text-align:center" title="${e?EV_LV[e.self[i]]:''}">${e?EV_FACE[e.self[i]]:'<span class="mut">—</span>'}</td>`).join('')}<td>${e?'★'.repeat(e.rate):'—'}</td><td class="small">${e?EV_CL[e.clear]:'—'}</td><td class="small">${e?.note?esc(e.note):''}</td></tr>`}).join('')||`<tr><td colspan="${can.length+5}" class="mut">${tCls} ангид бүртгүүлсэн сурагч алга.</td></tr>`}</tbody></table>
+  <p class="small mut" style="margin:8px 0 0">«Би чадна»: ${can.map((c,i)=>`${i+1} — ${esc(c)}`).join('; ')}. 😟 чадахгүй · 🙂 тусламжтай · 😎 бие даан.</p></div>
+  <div class="card scroll"><h3 style="margin-top:0">Бүх хичээлийн шалгалтын дүн</h3><table><thead><tr><th>Овог нэр</th>${ids.map(id=>`<th style="text-align:center">${id}</th>`).join('')}<th>Дундаж</th></tr></thead><tbody>
+  ${studs.map(u=>{const rs=ids.map(id=>u.ltest?.[id]);const g=rs.filter(Boolean);const a=g.length?Math.round(g.reduce((s,r)=>s+pc(r),0)/g.length):null;
+   return `<tr><td><b>${esc(u.ovog)} ${esc(u.ner)}</b></td>${rs.map(r=>`<td style="text-align:center">${r?`<span class="ltc ${ltCls(pc(r))}" title="${r.date}">${r.score}/${r.total}</span>`:'<span class="mut">—</span>'}</td>`).join('')}<td>${a!=null?`<span class="ltc ${ltCls(a)}">${a}%</span>`:'—'}</td></tr>`}).join('')}</tbody></table></div>`}
+ return head+`<div class="grid" style="align-items:start">
+  <div class="card"><h3 style="margin-top:0">Дүгнэлт шалгалт — асуулт бүрээр</h3>${T.length?`<div class="qana">${qa.map((a,i)=>`<div><div class="row" style="justify-content:space-between"><span class="small"><b>${i+1}.</b> ${esc(a.q.q)}</span><b class="small">${a.p!=null?a.p+'%':'—'}</b></div>${bar(a.p,a.p>=80?'#2ecc71':a.p>=60?'#f0b21a':'#e74c3c')}</div>`).join('')}</div>`:'<p class="mut">Одоогоор шалгалт өгөөгүй байна.</p>'}</div>
+  <div class="card"><h3 style="margin-top:0">Өөрийн үнэлгээ — «Би чадна»</h3>${E.length?cs.map(c=>`<div style="margin-bottom:10px"><div class="small" style="margin-bottom:4px">${esc(c.c)}</div><div class="stk"><i style="width:${c.low}%;background:#e74c3c" title="Чадахгүй ${c.low}%"></i><i style="width:${c.mid}%;background:#f0b21a" title="Тусламжтай ${c.mid}%"></i><i style="width:${c.ok}%;background:#2ecc71" title="Бие даан ${c.ok}%"></i></div><div class="small mut">😟 ${c.low}% · 🙂 ${c.mid}% · 😎 ${c.ok}%</div></div>`).join(''):'<p class="mut">Одоогоор үнэлгээ өгөөгүй байна.</p>'}</div>
+  <div class="card"><h3 style="margin-top:0">Хичээлийн үнэлгээ</h3>${E.length?`${[5,4,3,2,1].map(n=>{const k=E.filter(e=>e.rate===n).length;return `<div class="row" style="gap:8px;margin-bottom:4px"><span class="small" style="width:70px">${'★'.repeat(n)}</span><div style="flex:1">${bar(P(k,E.length),'#ffb400')}</div><b class="small" style="width:38px;text-align:right">${P(k,E.length)}%</b></div>`}).join('')}
+   <p class="small" style="margin:12px 0 4px"><b>Хичээл ойлгомжтой байсан уу?</b></p>${EV_CL.map((l,j)=>`<div class="row" style="gap:8px;margin-bottom:4px"><span class="small" style="width:120px">${l}</span><div style="flex:1">${bar(P(clr[j],E.length),['#2ecc71','#f0b21a','#e74c3c'][j])}</div><b class="small" style="width:38px;text-align:right">${P(clr[j],E.length)}%</b></div>`).join('')}`:'<p class="mut">—</p>'}</div>
+  <div class="card"><h3 style="margin-top:0">Сурагчдын санал (нэргүй)</h3>${notes.length?`<div class="notes">${notes.map(n=>`<span>«${esc(n)}»</span>`).join('')}</div>`:'<p class="mut">Санал ирээгүй байна.</p>'}</div></div>
+  ${T.length||E.length?`<div class="card" style="margin-top:12px;border:2px solid var(--sun)"><h3 style="margin-top:0">💬 Ангитайгаа дүгнэж ярилцах санаа</h3><ul style="margin:0;padding-left:20px">
+   ${avg!=null?`<li>Ангийн шалгалтын дундаж <b>${avg}%</b> (${T.length}/${N} сурагч өгсөн).</li>`:''}
+   ${hard&&hard.p<80?`<li><b>Хамгийн хэцүү асуулт:</b> «${esc(hard.q.q)}» — ${100-hard.p}% нь алдсан. Зөв хариулт: <b>${esc(ltAns(hard.q))}</b>.</li>`:''}
+   ${E.length&&weak.low>0?`<li><b>Дахин бататгах:</b> «${esc(weak.c)}» — ${weak.low}% нь одоохондоо чадахгүй гэжээ.</li>`:''}
+   ${E.length?`<li><b>Ойлгомж:</b> ${P(clr[2],E.length)}% нь ойлгоход хэцүү, ${P(clr[0],E.length)}% нь ойлгомжтой гэжээ.</li>`:''}
+   <li><b>Дараагийн алхам:</b> алдсан асуултаа хамтдаа задлаад, «тусламжтай чадна» гэсэн сурагчдыг хосоор ажиллуулаарай.</li></ul></div>`:''}
+  <p class="small mut" style="margin:10px 0 0">Сурагч шалгалт, үнэлгээгээ илгээмэгц энэ хуудас автоматаар шинэчлэгдэнэ. Дэлгэцэнд гаргахдаа «Анги нийтээр» горимыг ашиглана — нэр харагдахгүй.</p>`}
+
+/* ---------- Өөрийн үнэлгээ ба хичээлийн үнэлгээ ---------- */
+const EV_LV=['Одоохондоо чадахгүй','Тусламжтай чадна','Бие даан чадна'],EV_FACE=['😟','🙂','😎'],EV_CL=['Тийм, ойлгомжтой','Дунд зэрэг','Ойлгоход хэцүү'];
+const evCan=x=>[x.goal.replace(/\.$/,''),'Хичээлийн шинэ нэр томьёог өөрийн үгээр тайлбарлах','Бататгах дасгал, шалгалтаа бусдын тусламжгүй хийх'];
+let evSt=null;
+function evHTML(x){const u=user();if(!u)return '';const e=u.ev?.[x.id],can=evCan(x);
+ const h=`<div class="sec" id="evsec"><h3><span class="tag t-a">Үнэлгээ</span>Өөрийн үнэлгээ ба хичээлийн үнэлгээ</h3>`;
+ if(!u.ltest?.[x.id])return h+`<p class="small mut" style="margin:0">🔒 Дүгнэлт шалгалтаа өгсний дараа үнэлгээ нээгдэнэ.</p></div>`;
+ if(e&&!(evSt&&evSt.id===x.id&&evSt.edit))return h+`<div class="ltres" style="display:block"><b>Үнэлгээгээ илгээсэн, баярлалаа!</b> <span class="small mut">${e.date}</span>
+  <div style="margin-top:8px">${can.map((c,i)=>`<div class="small">${EV_FACE[e.self[i]]} ${esc(c)} — <b>${EV_LV[e.self[i]]}</b></div>`).join('')}</div>
+  <div class="small" style="margin-top:6px">Хичээлд: <b>${'★'.repeat(e.rate)}${'☆'.repeat(5-e.rate)}</b> · ${EV_CL[e.clear]}${e.note?` · «${esc(e.note)}»`:''}</div>
+  <button class="ghost sm" id="evedit" style="margin-top:8px">Засах</button></div></div>`;
+ if(!evSt||evSt.id!==x.id)evSt={id:x.id,self:e?[...e.self]:can.map(()=>null),rate:e?.rate||0,clear:e?.clear??null,note:e?.note||'',edit:!!e};
+ return h+`<p class="small" style="margin-top:0"><b>1. Өөрийн үнэлгээ — би юу чадах болсон бэ?</b> Өөрт тохирохыг сонго.</p>
+  ${can.map((c,i)=>`<div class="evrow"><span>${esc(c)}</span><div class="evopts">${EV_LV.map((l,j)=>`<button class="evb ${evSt.self[i]===j?'on':''}" data-es="${i}" data-v="${j}"><span>${EV_FACE[j]}</span>${l}</button>`).join('')}</div></div>`).join('')}
+  <p class="small" style="margin:14px 0 6px"><b>2. Хичээлийн үнэлгээ</b> — хичээл танд хэр таалагдсан бэ?</p>
+  <div class="evstars">${[1,2,3,4,5].map(n=>`<button class="evst ${evSt.rate>=n?'on':''}" data-r="${n}" aria-label="${n} од">★</button>`).join('')}</div>
+  <p class="small" style="margin:10px 0 6px">Хичээл ойлгомжтой байсан уу?</p>
+  <div class="evopts">${EV_CL.map((l,j)=>`<button class="evb ${evSt.clear===j?'on':''}" data-cl="${j}">${l}</button>`).join('')}</div>
+  <label for="evnote" style="margin-top:12px">Багшид хэлэх санал, асуулт (заавал биш, нэр харагдахгүй)</label><textarea id="evnote" rows="2">${esc(evSt.note)}</textarea>
+  <p class="fb no" id="evmsg"></p><button class="leaf" id="evsend">Үнэлгээ илгээх</button></div>`}
+function evMount(x){const w=$('#evwrap');if(!w)return;w.innerHTML=evHTML(x);evBind(x)}
+function evBind(x){const ed=$('#evedit');if(ed)ed.onclick=()=>{evSt=null;evSt={id:x.id,edit:true,self:[...user().ev[x.id].self],rate:user().ev[x.id].rate,clear:user().ev[x.id].clear,note:user().ev[x.id].note||''};evMount(x)};
+ if(!evSt||evSt.id!==x.id)return;
+ document.querySelectorAll('[data-es]').forEach(b=>b.onclick=()=>{evSt.self[+b.dataset.es]=+b.dataset.v;evMount(x)});
+ document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{evSt.rate=+b.dataset.r;evMount(x)});
+ document.querySelectorAll('[data-cl]').forEach(b=>b.onclick=()=>{evSt.clear=+b.dataset.cl;evMount(x)});
+ const nt=$('#evnote');if(nt)nt.oninput=()=>evSt.note=nt.value;
+ const sd=$('#evsend');if(sd)sd.onclick=()=>{if(evSt.self.some(v=>v==null)||!evSt.rate||evSt.clear==null){$('#evmsg').textContent='Бүх асуултад хариулаад, хичээлд од өгнө үү.';return}
+  const u=user();u.ev??={};u.ev[x.id]={self:evSt.self,rate:evSt.rate,clear:evSt.clear,note:evSt.note.trim().slice(0,300),date:today()};evSt=null;markDay(u);save();evMount(x)}}
+let thSt=null;
+function theoryView(id){const x=TH.find(t=>t.id===id);if(!x)return V.theory();const idx=TH.indexOf(x),nx=TH[idx+1],pv=TH[idx-1];
+ if(!thOpen(id))return `<section class="band"><div class="wrap" style="max-width:640px"><div class="card" style="text-align:center"><div style="color:var(--mut)">${LOCK.replace('width="18" height="18"','width="56" height="56"')}</div><h2>Энэ хичээл түгжээтэй</h2><p>Багш энэ хичээлийг танай ангид хараахан нээгээгүй байна. Хичээлийн үеэр багш нээж өгнө.</p><a class="btn" href="#theory">Онолын хичээлүүд рүү →</a></div></div></section>`;
+ if(!thSt||thSt.id!==id)thSt={id,qs:prep(x.q),ans:{},chk:{}};
+ return `<section class="band"><div class="wrap theory">
+ <div class="row" style="justify-content:space-between"><span class="pill">${x.id} · ${esc(UNITS.find(u=>u[0]===x.u)[1])}</span><a href="#theory" class="small">← Бүх хичээл</a></div>
+ <h1 style="margin-top:10px;font-size:clamp(28px,4vw,40px)">${esc(x.t)}</h1>
+ <p style="margin:0"><b>Зорилт:</b> ${esc(x.goal)}</p>
+ <p style="margin:8px 0"><span class="vchip" style="background:var(${VAL[x.v]||'--s3'})">${esc(x.v)}</span></p>
+ ${x.s.map(([tg,ti,h])=>`<div class="sec"><h3><span class="tag ${TAGS[tg][0]}">${TAGS[tg][1]}</span>${esc(ti)}</h3>${h.replace('{{KB}}',`<div class="kb color">${kbHTML('mn')}</div>${handsHTML()}`)}</div>`).join('')}
+ <div class="sec"><h3><span class="tag t-o">Бататгах дасгал</span>Шалгаад үзье</h3><p class="small mut" style="margin-top:0">Хариулаад «Шалгах» товчийг дар. Бүх дасгалаа шалгавал дараагийн хичээл нээгдэнэ.</p>
+ ${thSt.qs.map((q,k)=>`<div class="qcard" data-k="${k}"><div class="top"><b>${k+1}.</b><span class="pill">${TYPE_NM[q.t]}</span></div><p style="margin:0 0 8px;font-weight:700">${esc(q.q)}</p><div data-in>${qInput(q,k,thSt.ans[k])}</div><div class="row" style="margin-top:8px"><button class="ghost sm" data-chk="${k}">Шалгах</button></div><div class="fb" data-fb="${k}"></div></div>`).join('')}
+ <div class="fb" id="thres"></div></div>
+ <div id="ltwrap">${ltHTML(x)}</div>
+ <div id="evwrap">${evHTML(x)}</div>
+ <div class="row" id="thnav">${pv?`<a class="btn ghost" href="#${thId(pv.id)}">← ${pv.id}</a>`:''}${nx&&thOpen(nx.id)?`<a class="btn" href="#${thId(nx.id)}">Дараагийн хичээл: ${nx.id} →</a>`:''}${x.id==='2.1.2'?`<button class="leaf" onclick="window.goType('mn',1)">Бичих дасгал хийх →</button>`:''}</div>
+ </div></section>`}
+function theoryBind(id){const x=TH.find(t=>t.id===id);if(!x||!thOpen(id))return;ltBind(x);evBind(x);
+ document.querySelectorAll('.qcard[data-k]').forEach(c=>{const k=+c.dataset.k,q=thSt.qs[k];bindQ(c,q,k,thSt);
+  c.querySelector('[data-chk]').onclick=()=>{const A=thSt.ans[k]??(q.t==='order'?[...q.ord]:undefined);const ok=isRight(q,A);thSt.chk[k]=ok;const f=c.querySelector('[data-fb]');f.className='fb '+(ok?'ok':'no');
+   f.innerHTML=(ok?'Зөв! ':'Дахин бодоорой. ')+esc(q.e||'')+(q.t==='create'?`<br><span class="mut">Жишээ хариулт: ${esc(q.sample)}</span>`:(!ok?`<br><span class="mut">Зөв хариулт: ${esc(rightAns(q))}</span>`:''));
+   const n=Object.keys(thSt.chk).length;if(n===thSt.qs.length){const sc=Object.values(thSt.chk).filter(Boolean).length;const P=prog();P.theory??={};const old=P.theory[id];if(!old||old.score<sc)P.theory[id]={score:sc,total:n};if(user()){markDay(user());save()}ltMount(x);
+    const idx=TH.indexOf(x),nx=TH[idx+1];
+    $('#thres').className='fb ok';$('#thres').innerHTML=`Бүгдийг шалгалаа: ${sc}/${n} зөв. ${sc===n?'Гайхалтай!':'Алдаа бол суралцах боломж — дахин уншаад шалгаарай.'}${' Одоо доорх дүгнэлт шалгалтаа өгөөрэй.'}`;
+    if(nx&&thOpen(nx.id)&&!$('#thnav a[href="#'+thId(nx.id)+'"]'))$('#thnav').insertAdjacentHTML('beforeend',`<a class="btn" href="#${thId(nx.id)}">Дараагийн хичээл: ${nx.id} →</a>`)}}})}
+window.goType=(l,n)=>{cur={lang:l,src:'les',les:n,ex:0};location.hash='type'};
+
+/* ---------- Нэр томьёо ---------- */
+let tq='',tf='',tu='';
+V.terms=()=>`<section class="band"><div class="wrap" style="max-width:940px"><h2>Нэр томьёо, командын сан</h2>
+ <div class="row"><input id="tq" placeholder="Хайх: жишээ нь файл, Ctrl+S" value="${esc(tq)}" style="flex:1 1 240px"><select id="tu" style="width:auto"><option value="">Бүх нэгж</option>${UNITS.map(([n,t])=>`<option value="${n}" ${tu===n?'selected':''}>${n} ${t}</option>`).join('')}</select></div>
+ <div class="tabs" style="margin-top:10px">${[['','Бүгд'],['Нэр томьёо','Нэр томьёо'],['Команд','Команд'],['Товчлуур','Товчлуур']].map(([v,l])=>`<button data-tf="${v}" class="${tf===v?'on':''}">${l}</button>`).join('')}</div>
+ <p class="small mut" id="tc"></p><div class="terms" id="tl"></div></div></section>`;
+V.terms.bind=()=>{const draw=()=>{const q=tq.toLowerCase();const L=TERMS.filter(t=>(!tf||t[1]===tf)&&(!tu||t[2].startsWith(tu))&&(t[0]+' '+t[3]).toLowerCase().includes(q));$('#tc').textContent=`${L.length} үр дүн`;
+  $('#tl').innerHTML=L.map(([n,k,s,d])=>`<div class="t"><div><b>${esc(n)}</b><br><span class="pill">${k}</span> <a class="small" href="#${thId(s)}">${s}</a></div><div>${esc(d)}</div></div>`).join('')||'<p class="mut">Олдсонгүй.</p>'};
+ $('#tq').oninput=e=>{tq=e.target.value;draw()};$('#tu').onchange=e=>{tu=e.target.value;draw()};document.querySelectorAll('[data-tf]').forEach(b=>b.onclick=()=>{tf=b.dataset.tf;render()});draw()};
+
+/* ---------- Үгийн сан (тоглоом, хурд) ---------- */
+const WORDS={mn:[],en:[]};for(const L of ['mn','en']){const s=new Set();TY[L].forEach((l,i)=>{if(i<1)return;l.ex.forEach(e=>{if(/^(Үг|Words|Сурах|Common|Нэр|Extra)/.test(e[0]))e[1].split(/\s+/).forEach(w=>{w=w.replace(/[.,;:!?"]/g,'');if(w.length>=3&&w.length<=10&&!/\d/.test(w))s.add(w.toLowerCase())})})});WORDS[L]=[...s]}
+
+/* ---------- Тоглоом ---------- */
+let g=null,gLang='mn';
+V.game=()=>`<section class="band"><div class="wrap"><h2>Тоглоом: Тоншуулын бороо</h2><p class="mut">Дээрээс үгс унана. Газарт хүрэхээс өмнө бич! 3 амьтай. 10 үг тутамд хурд нэмэгдэнэ. Тоглоом бол дасгал — 10 минутаас илүүгүй тоглоод нүдээ амраагаарай.</p>
+ <div class="tabs"><button data-gl="mn" class="${gLang==='mn'?'on':''}">Монгол</button><button data-gl="en" class="${gLang==='en'?'on':''}">English</button></div>
+ <div class="hud"><span>Оноо: <b id="g-s">0</b></span><span>Түвшин: <b id="g-l">1</b></span><span>Амь: <b id="g-h">♥♥♥</b></span><span>Шилдэг: <b>${user()?.best?.game||store.get('bestGame',0)}</b></span></div>
+ <div class="arena" id="arena"><div class="ground"></div><div class="over" id="gover"><div><svg viewBox="0 0 64 64" width="90"><use href="#bird"/></svg><br><button id="gstart">Тоглож эхлэх</button></div></div></div>
+ <input id="gin" placeholder="Энд бичээрэй…" autocomplete="off" style="margin-top:10px;font-size:20px;font-family:'PT Mono',monospace" disabled></div></section>`;
+V.game.bind=()=>{document.querySelectorAll('[data-gl]').forEach(b=>b.onclick=()=>{gLang=b.dataset.gl;stopGame();render()});
+ $('#gstart').onclick=startGame;const inp=$('#gin');
+ inp.addEventListener('keydown',e=>{if(gLang!=='mn'||e.key.length!==1||e.ctrlKey||e.altKey)return;const ch=charFromEvent(e,'mn');if(ch&&ch!==e.key){e.preventDefault();inp.setRangeText(ch,inp.selectionStart,inp.selectionEnd,'end');inp.dispatchEvent(new Event('input'))}});
+ inp.addEventListener('input',()=>{if(!g)return;const v=inp.value.trim().toLowerCase();g.ws.forEach(w=>w.el.classList.toggle('hit',!!v&&w.t.startsWith(v)));if(g.ws.some(w=>w.t===v)){hitWord(v);inp.value=''}});
+ inp.addEventListener('keyup',e=>{if(e.key==='Enter'||e.key===' ')inp.value=''})};
+function startGame(){stopGame();const A=$('#arena');A.querySelectorAll('.w').forEach(x=>x.remove());$('#gover').style.display='none';
+ g={ws:[],s:0,l:1,h:3,last:0,hits:0};const inp=$('#gin');inp.disabled=false;inp.value='';inp.focus();const W=WORDS[gLang];
+ const loop=t=>{if(!g)return;const H=A.clientHeight-34,sp=.35+g.l*.12;
+  if(t-g.last>Math.max(700,2300-g.l*180)){g.last=t;const w=W[Math.floor(Math.random()*W.length)];const el=document.createElement('div');el.className='w';el.textContent=w;A.appendChild(el);el.style.left=(Math.random()*Math.max(10,A.clientWidth-el.offsetWidth-10)+5)+'px';g.ws.push({t:w,el,y:-30})}
+  for(const w of [...g.ws]){w.y+=sp;w.el.style.top=w.y+'px';if(w.y>H-30){w.el.remove();g.ws.splice(g.ws.indexOf(w),1);g.h--;$('#g-h').textContent='♥'.repeat(Math.max(0,g.h))||'—';if(g.h<=0)return endGame()}}
+  g.raf=requestAnimationFrame(loop)};g.raf=requestAnimationFrame(loop)}
+function hitWord(v){const w=g.ws.find(x=>x.t===v);w.el.remove();g.ws.splice(g.ws.indexOf(w),1);g.s+=v.length*10;g.hits++;if(g.hits%10===0)g.l++;$('#g-s').textContent=g.s;$('#g-l').textContent=g.l}
+function endGame(){const s=g.s;stopGame();const u=user();if(s>store.get('bestGame',0))store.set('bestGame',s);if(u){u.best??={};if(s>(u.best.game||0))u.best.game=s;markDay(u);save()}
+ $('#gin').disabled=true;const o=$('#gover');o.style.display='grid';o.innerHTML=`<div class="card"><h2>Тоглоом дууслаа!</h2><p>Оноо: <b>${s}</b></p><p class="small mut">Эерэг хандлага: дахиад нэг оролдоод үз!</p><button id="gstart">Дахин тоглох</button></div>`;$('#gstart').onclick=startGame}
+function stopGame(){if(g){cancelAnimationFrame(g.raf);g=null}}
+
+/* ---------- Хурдны тест ---------- */
+let sLang='mn',sTimer=null;
+V.speed=()=>`<section class="band"><div class="wrap"><h2>Хурдны тест · 1 минут</h2><p class="mut">Эхний товчийг дармагц цаг явна. Эхлээд зөв, дараа нь хурдан!</p>
+ <div class="tabs" style="margin-bottom:10px"><button data-sl="mn" class="${sLang==='mn'?'on':''}">Монгол</button><button data-sl="en" class="${sLang==='en'?'on':''}">English</button><button id="snew">↻ Шинэ текст</button></div>
+ <div class="stats">${[['left','Үлдсэн'],['wpm','Хурд (үг/мин)'],['err','Алдаа'],['acc','Нарийвчлал %'],['n','Тэмдэгт'],['best','Шилдэг']].map(([k,l])=>`<div class="stat"><b id="sp-${k}">${k==='left'?'1:00':k==='best'?(user()?.best?.speed||store.get('bestSpeed',0)):'0'}</b><span>${l}</span></div>`).join('')}</div>
+ <div class="text" id="sbox"></div><div class="hint" id="hint"></div></div></section>`;
+V.speed.bind=()=>{document.querySelectorAll('[data-sl]').forEach(b=>b.onclick=()=>{sLang=b.dataset.sl;render()});$('#snew').onclick=()=>render();
+ const ws=WORDS[sLang];const txt=Array.from({length:60},()=>ws[Math.floor(Math.random()*ws.length)]).join(' ');clearInterval(sTimer);sTimer=null;
+ typer=Typer({box:$('#sbox'),text:txt,onKey:()=>{if(typer&&typer.start&&!sTimer)sTimer=setInterval(st,250);st()},onDone:()=>endSpeed()});typer.lang=sLang;
+ function st(){if(!typer)return;const s=typer.stats();const left=Math.max(0,60-((typer.start?performance.now()-typer.start:0)/1000));$('#sp-left').textContent=fmt(Math.ceil(left));['wpm','err','acc','n'].forEach(k=>$('#sp-'+k).textContent=s[k]);if(left<=0&&!typer.done)endSpeed()}
+ function endSpeed(){clearInterval(sTimer);sTimer=null;typer.done=true;const s=typer.stats();const u=user();if(u){u.best??={};if(s.wpm>(u.best.speed||0))u.best.speed=s.wpm;markDay(u);save()}if(s.wpm>store.get('bestSpeed',0))store.set('bestSpeed',s.wpm);
+  modal(`<h2>Хугацаа дууслаа!</h2><p style="font-size:44px;font-weight:900;margin:6px 0">${s.wpm} <span style="font-size:18px">үг/мин</span></p><p>Нарийвчлал ${s.acc}% · Алдаа ${s.err}</p><button id="m-ok">Дахин оролдох</button>`);$('#m-ok').onclick=()=>{closeModal();render()}}};
+
+/* ---------- Шалгалт ---------- */
+let ex=null;
+V.exam=()=>{const u=user();
+ if(!u)return `<section class="band"><div class="wrap" style="max-width:600px"><div class="card"><h2>Шалгалт</h2><p>Шалгалт өгөхийн тулд эхлээд нэвтэрнэ үү.</p><button onclick="location.hash='login'">Нэвтрэх / Бүртгүүлэх</button></div></div></section>`;
+ if(ex)return examHTML();
+ return `<section class="band"><div class="wrap"><h2>Нэгжийн шалгалт</h2><p class="mut">Шалгалт 40 минут үргэлжилнэ. 3 удаа өгч болно. Эхний оролдлогоор батламж гарна. 3 оролдлогоо дуусгасны дараа зөв хариулт, тайлбар нээгдэнэ.</p>
+ <p class="small" style="background:var(--soft);padding:10px 14px;border-radius:14px"><b>Үүрэг хариуцлага:</b> Шалгалтаа бие даан, шударгаар өгье. Кодыг зөвхөн багш хэлнэ.</p>
+ <div class="grid">${UNITS.map(([n,t])=>{const at=u.exams?.[n]||[];return `<div class="card"><span class="pill">Нэгж ${n}</span><h3 style="margin-top:8px">${t}</h3>
+ <p class="small mut">Оролдлого: ${at.length}/3${at[0]?` · Эхний оноо: ${at[0].score}/${at[0].total}`:''}</p>
+ ${at.length<3?`<label for="c-${n}">Багшийн өгсөн код</label><div class="row"><input id="c-${n}" placeholder="0000" inputmode="numeric" style="max-width:140px"><button data-start="${n}">Эхлэх</button></div>`:''}
+ <div class="row" style="margin-top:8px">${at[0]?`<button class="ghost sm" data-cert="${n}">Батламж</button>`:''}${at.length>=3&&at[2].res?`<button class="ghost sm" data-rev="${n}">Хариу, тайлбар</button>`:''}</div></div>`}).join('')}</div></div></section>`};
+V.exam.bind=()=>{if(ex)return examBind();
+ document.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>{const n=b.dataset.start,u=user();const s=exams[u.cls]?.[n];const code=document.getElementById('c-'+n).value.trim();
+  if(!s?.open)return modal(`<h3>Шалгалт нээгдээгүй байна</h3><p>Багш таны ангид (${esc(u.cls)}) энэ шалгалтыг хараахан нээгээгүй байна.</p><button onclick="window.closeModal()">Ойлголоо</button>`);
+  if(code!==s.code)return modal(`<h3>Код буруу байна</h3><p>Багшийн хэлсэн кодыг дахин шалгаарай.</p><button onclick="window.closeModal()">Ойлголоо</button>`);
+  ex={unit:n,qs:prep(BANK[n]),ans:{},end:Date.now()+40*60000};render()});
+ document.querySelectorAll('[data-cert]').forEach(b=>b.onclick=()=>showCert(b.dataset.cert));
+ document.querySelectorAll('[data-rev]').forEach(b=>b.onclick=()=>showReview(b.dataset.rev))};
+function examHTML(){return `<section class="band"><div class="wrap" style="max-width:860px">
+ <div class="timer"><span>Нэгж ${ex.unit} · ${ex.qs.length} даалгавар</span><span id="eans"></span><span id="etime">40:00</span></div>
+ ${ex.qs.map((q,k)=>`<div class="qcard" data-k="${k}"><div class="top"><b>${k+1}.</b><span class="pill">${TYPE_NM[q.t]}</span></div><p style="margin:0 0 8px;font-weight:700">${esc(q.q)}</p>${qInput(q,k,ex.ans[k])}</div>`).join('')}
+ <div class="row"><button class="leaf" id="esub">Шалгалтаа илгээх</button></div></div></section>`}
+function examBind(){const cnt=()=>{const n=ex.qs.filter((q,k)=>ex.ans[k]!=null&&ex.ans[k]!=='').length;const el=$('#eans');if(el)el.textContent=`Хариулсан: ${n}/${ex.qs.length}`};
+ const tick=()=>{if(!ex)return;const left=Math.max(0,Math.round((ex.end-Date.now())/1000));const el=$('#etime');if(el)el.textContent='Үлдсэн '+fmt(left);if(left<=0)submitExam(true)};
+ clearInterval(window._et);window._et=setInterval(()=>{tick();cnt()},1000);tick();cnt();
+ document.querySelectorAll('.qcard[data-k]').forEach(c=>{const k=+c.dataset.k;bindQ(c,ex.qs[k],k,ex)});
+ $('#esub').onclick=()=>{const miss=ex.qs.filter((q,k)=>(ex.ans[k]==null||ex.ans[k]==='')&&q.t!=='order').length;
+  modal(`<h3>Шалгалтаа илгээх үү?</h3><p>${miss?`${miss} даалгавар хариулаагүй байна. `:''}Илгээсний дараа засах боломжгүй.</p><div class="row" style="justify-content:center"><button class="ghost" onclick="window.closeModal()">Буцах</button><button class="leaf" id="m-sub">Тийм, илгээе</button></div>`);$('#m-sub').onclick=()=>{closeModal();submitExam(false)}}}
+function submitExam(auto){clearInterval(window._et);const u=user();const res=ex.qs.map((q,k)=>{const A=ex.ans[k]??(q.t==='order'?[...q.ord]:null);return {i:q.i,ok:isRight(q,A),ans:q.perm&&A!=null?q.perm[A]:A}});
+ const score=res.filter(r=>r.ok).length,total=BANK[ex.unit].length;u.exams??={};const at=u.exams[ex.unit]??=[];
+ at.push({score,total,date:today(),res});markDay(u);save();const n=ex.unit,first=at.length===1,c=at.length;ex=null;render();
+ modal(`<h2>${auto?'Хугацаа дууслаа':'Шалгалт илгээгдлээ'}</h2><p style="font-size:40px;font-weight:900;margin:4px 0">${score}/${total}</p><p><b>${Math.round(score/total*100)}%</b> · ${c}-р оролдлого</p>
+ ${first?'<p>Эхний оролдлогын батламж чинь бэлэн боллоо!</p>':''}${c>=3?'<p>3 оролдлого дууслаа. Одоо зөв хариулт, тайлбараа харж болно.</p>':`<p class="small mut">Үлдсэн оролдлого: ${3-c}. Алдаа бол суралцах боломж!</p>`}
+ <div class="row" style="justify-content:center">${first?`<button id="m-c">Батламж харах</button>`:''}${c>=3?`<button class="leaf" id="m-r">Тайлбар харах</button>`:''}<button class="ghost" onclick="window.closeModal()">Хаах</button></div>`);
+ $('#m-c')&&($('#m-c').onclick=()=>{closeModal();showCert(n)});$('#m-r')&&($('#m-r').onclick=()=>{closeModal();showReview(n)})}
+function showReview(n){const u=user();const last=u.exams[n].at(-1);const qs=BANK[n];
+ $('#app').innerHTML=`<section class="band"><div class="wrap" style="max-width:860px"><a class="small" href="#exam" onclick="setTimeout(window.render)">← Шалгалт</a><h2 style="margin-top:12px">Нэгж ${n}: хариу ба тайлбар</h2><p class="mut">Сүүлийн оролдлого: ${last.score}/${last.total}</p>
+ ${last.res.map((r,k)=>{const q=qs[r.i];return `<div class="qcard rev ${r.ok?'':'no'}"><div class="top"><b>${k+1}.</b><b style="color:${r.ok?'var(--leaf)':'var(--red2)'}">${r.ok?'✓ Зөв':'✗ Буруу'}</b></div><p style="margin:0;font-weight:700">${esc(q.q)}</p><p class="small" style="margin:6px 0 0">Таны хариулт: ${esc(showAns(q,r.ans))}</p>${r.ok?'':`<p class="small" style="margin:2px 0 0">Зөв хариулт: <b>${esc(rightAns(q))}</b></p>`}<p class="small mut" style="margin:4px 0 0">Тайлбар: ${esc(q.e)}</p></div>`}).join('')}</div></section>`;scrollTo(0,0)}
+function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
+async function drawCert(n){const u=user(),a=u.exams[n][0];const c=document.createElement('canvas');c.width=1400;c.height=990;const x=c.getContext('2d');
+ x.fillStyle='#fffaf0';x.fillRect(0,0,1400,990);['#8a4cc2','#43a843','#2d78d2','#e3a100'].forEach((col,i)=>{x.fillStyle=col;x.fillRect(i*350,0,350,22);x.fillRect(i*350,968,350,22)});
+ x.strokeStyle='#1f2550';x.lineWidth=6;x.strokeRect(50,60,1300,870);x.strokeStyle='#ffc93c';x.lineWidth=3;x.strokeRect(66,76,1268,838);
+ const bird=await loadImg('data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${document.getElementById('bird').innerHTML}</svg>`));
+ const logo=await loadImg('logo130.png');try{if(logo)x.drawImage(logo,500,100,190,194);if(bird)x.drawImage(bird,720,100,190,190)}catch(e){}
+ x.textAlign='center';x.fillStyle='#1f2550';x.font='900 84px Nunito, sans-serif';x.fillText('БАТЛАМЖ',700,380);
+ x.font='600 30px Nunito, sans-serif';x.fillStyle='#5b6188';x.fillText('Энэхүү батламжийг',700,432);
+ x.font='900 60px Nunito, sans-serif';x.fillStyle='#e8392d';x.fillText(`${u.ovog} ${u.ner}`,700,510);
+ x.font='700 30px Nunito, sans-serif';x.fillStyle='#1f2550';x.fillText(`${u.cls} анги · Мэдээллийн технологи`,700,558);
+ x.font='700 32px Nunito, sans-serif';x.fillText(`«${n} ${UNITS.find(z=>z[0]===n)[1]}»`,700,612);x.font='600 28px Nunito, sans-serif';x.fillText('нэгжийн шалгалтыг өгсөнд олгов.',700,650);
+ x.fillStyle='#2f9e62';x.beginPath();x.roundRect(430,680,540,110,24);x.fill();x.fillStyle='#fff';x.font='900 54px Nunito, sans-serif';x.fillText(`${a.score}/${a.total} оноо · ${Math.round(a.score/a.total*100)}%`,700,754);
+ x.fillStyle='#5b6188';x.font='600 25px Nunito, sans-serif';x.fillText(`Огноо: ${a.date}  ·  Эхний оролдлого  ·  Түргэн Тоншуул  ·  130-р сургууль`,700,850);
+ x.font='italic 600 22px Nunito, sans-serif';x.fillText('Эв нэгдэл · Эерэг хандлага · Тасралтгүй хөгжил · Үүрэг хариуцлага',700,890);return c}
+async function showCert(n){const c=await drawCert(n);const url=c.toDataURL('image/png');const u=user();u.certSeen??={};if(!u.certSeen[n]){u.certSeen[n]=today();save()}
+ modal(`<h3>Батламж</h3><img src="${url}" alt="Батламж" style="width:100%;border-radius:12px;border:2px solid var(--line)"><p class="small mut">Баяр хүргэе! Батламж чинь энд үргэлж хадгалагдана.</p><button onclick="window.closeModal()">Хаах</button>`)}
+
+/* ---------- Нэвтрэх ---------- */
+let lmode='login';
+V.login=()=>`<section class="band"><div class="wrap" style="max-width:580px"><div class="card">
+ <div class="tabs" style="margin-bottom:10px"><button data-lm="login" class="${lmode==='login'?'on':''}">Нэвтрэх</button><button data-lm="reg" class="${lmode==='reg'?'on':''}">Бүртгүүлэх</button><button data-lm="teach" class="${lmode==='teach'?'on':''}">Багш</button></div>
+ <form id="lf">${lmode==='teach'?`<label for="tu2">Багшийн нэвтрэх нэр</label><input id="tu2" required autocomplete="username"><label for="tp">Нууц үг</label><input id="tp" type="password" required autocomplete="current-password">`:
+ `<label for="lo">Овог</label><input id="lo" required autocomplete="family-name"><label for="ln">Нэр</label><input id="ln" required autocomplete="given-name"><label for="lc">Анги</label><select id="lc">${CLASSES.map(c=>`<option>${c}</option>`).join('')}</select><label for="lp">Нууц үг</label><input id="lp" type="password" required minlength="4" autocomplete="${lmode==='reg'?'new-password':'current-password'}">
+ ${lmode==='reg'?`<label for="lp2">Нууц үгээ давтан бич</label><input id="lp2" type="password" required minlength="4" autocomplete="new-password">
+ <div class="def" style="border-left-color:var(--s4)"><label class="chk" style="margin:0"><input type="checkbox" id="pledge" required><span><b>Цахим иргэний амлалт:</b> Би нууц үгээ хэнд ч хэлэхгүй, шалгалтаа шударгаар өгч, бусдыг цахим орчинд хүндэлнэ.</span></label></div>
+ <p class="small mut">Нууц үгээ мартвал багшдаа хэлээрэй — багш шинээр тохируулж өгнө.</p>`:''}`}
+ <div class="fb no" id="lerr"></div><button style="width:100%;margin-top:8px">${lmode==='reg'?'Бүртгүүлэх':'Нэвтрэх'}</button></form></div></div></section>`;
+V.login.bind=()=>{document.querySelectorAll('[data-lm]').forEach(b=>b.onclick=()=>{lmode=b.dataset.lm;render()});
+ $('#lf').onsubmit=e=>{e.preventDefault();const err=m=>$('#lerr').textContent=m;
+  if(lmode==='teach'){const l=$('#tu2').value.trim().toLowerCase(),t=teachers[l];if(t&&t.pw===hash($('#tp').value)){tlogin=l;store.set('tlogin',l);location.hash='teacher'}else err('Нэр эсвэл нууц үг буруу байна.');return}
+  const o=$('#lo').value.trim(),n=$('#ln').value.trim(),c=$('#lc').value,p=$('#lp').value;const f=Object.values(users).find(u=>u.ovog.toLowerCase()===o.toLowerCase()&&u.ner.toLowerCase()===n.toLowerCase()&&u.cls===c);
+  if(lmode==='reg'){if(p!==$('#lp2').value)return err('Нууц үг таарахгүй байна.');if(f)return err('Энэ сурагч бүртгэлтэй байна. «Нэвтрэх» хэсгээр орно уу.');const id='u'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);users[id]={id,ovog:o,ner:n,cls:c,pw:hash(p),pledge:today(),typing:{},theory:{},exams:{},best:{},days:[]};save();me=id;store.set('me',me);location.hash='home';return}
+  if(!f||f.pw!==hash(p))return err('Овог, нэр, анги эсвэл нууц үг буруу байна.');me=f.id;store.set('me',me);location.hash='home'}};
+
+/* ---------- Багш ---------- */
+let tCls=null,tTab='st',aUnit='2.1',aBasis='first';
+const GR=[[90,'A','Онц','--s2'],[80,'B','Сайн','--s3'],[70,'C','Дунд','--s4'],[60,'D','Хангалттай','--f4'],[0,'F','Хангалтгүй','--red']];
+const grade=p=>GR.find(g=>p>=g[0]);
+const BL=['Сэргээн санах','Ойлгох','Хэрэглэх','Задлан шинжлэх','Үнэлэх','Бүтээх'];
+const pctOf=x=>Math.round(x.score/x.total*100);
+const pickAt=(u,un)=>{const a=u.exams?.[un]||[];if(!a.length)return null;return aBasis==='first'?a[0]:a.reduce((m,x)=>x.score>m.score?x:m)};
+const barRow=(l,p,t,c)=>`<div class="r"><b>${l}</b><div class="bar2"><i style="width:${Math.max(0,Math.min(100,p))}%;background:var(${c||'--leaf'})"></i></div><span class="v">${t}</span></div>`;
+function anData(cls,un){const Q=BANK[un],studs=Object.values(users).filter(u=>u.cls===cls);
+ const att=studs.map(u=>({u,a:pickAt(u,un)})).filter(x=>x.a);const ps=att.map(x=>pctOf(x.a));
+ const qs=Q.map((q,i)=>{let n=0,ok=0;const wr={};att.forEach(({a})=>{const r=a.res?.find(r=>r.i===i);if(!r)return;n++;if(r.ok)ok++;else if(r.ans!=null&&r.ans!==''){const k=JSON.stringify(r.ans);wr[k]=(wr[k]||0)+1}});const top=Object.entries(wr).sort((a,b)=>b[1]-a[1])[0];return {q,i,n,ok,p:n?Math.round(ok/n*100):null,top:top?showAns(q,JSON.parse(top[0])):null,topn:top?top[1]:0}});
+ const agg=f=>{const m={};qs.forEach(x=>{const k=f(x.q);m[k]??={n:0,ok:0};m[k].n+=x.n;m[k].ok+=x.ok});return m};
+ return {Q,studs,att,ps,qs,bl:agg(q=>q.b),ty:agg(q=>TYPE_NM[q.t])}}
+function anHTML(){const T=teacher(),my=T.admin?CLASSES:T.classes,D=anData(tCls,aUnit),{studs,att,ps,qs,bl,ty}=D;
+ const avg=ps.length?Math.round(ps.reduce((a,b)=>a+b,0)/ps.length):0,mx=ps.length?Math.max(...ps):0,mn=ps.length?Math.min(...ps):0,pass=ps.filter(p=>p>=60).length;
+ const certed=studs.filter(u=>u.exams?.[aUnit]?.length),seen=certed.filter(u=>u.certSeen?.[aUnit]),notTook=studs.filter(u=>!u.exams?.[aUnit]?.length);
+ const blA=BL.filter(b=>bl[b]?.n).map(b=>[b,Math.round(bl[b].ok/bl[b].n*100)]);
+ const tyA=Object.entries(ty).filter(([,v])=>v.n).map(([k,v])=>[k,Math.round(v.ok/v.n*100)]);
+ const atp=[0,1,2].map(j=>{const xs=studs.map(u=>u.exams?.[aUnit]?.[j]).filter(Boolean);return xs.length?{n:xs.length,p:Math.round(xs.reduce((s,x)=>s+pctOf(x),0)/xs.length)}:null});
+ const cmp=my.map(c=>{const ss=Object.values(users).filter(u=>u.cls===c);const xs=ss.map(u=>pickAt(u,aUnit)).filter(Boolean);return {c,n:xs.length,all:ss.length,p:xs.length?Math.round(xs.reduce((s,x)=>s+pctOf(x),0)/xs.length):null}});
+ const weak=a=>{if(!a?.res)return '—';const m={};a.res.forEach(r=>{const b=D.Q[r.i]?.b;if(!b)return;m[b]??=[0,0];m[b][1]++;if(r.ok)m[b][0]++});const w=Object.entries(m).sort((x,y)=>x[1][0]/x[1][1]-y[1][0]/y[1][1])[0];return w?`${w[0]} (${Math.round(w[1][0]/w[1][1]*100)}%)`:'—'};
+ const hard=qs.filter(x=>x.p!=null).sort((a,b)=>a.p-b.p);
+ const lowS=att.filter(x=>pctOf(x.a)<60).map(x=>`${x.u.ovog} ${x.u.ner}`);
+ const recs=[];if(!att.length)recs.push(`${tCls} ангид ${aUnit} нэгжийн шалгалт өгсөн сурагч алга.`);else{
+  const sb=[...blA].sort((a,b)=>a[1]-b[1]);if(sb[0])recs.push(`Хамгийн сул түвшин: <b>${sb[0][0]}</b> — ${sb[0][1]}%. Энэ түвшний даалгаврыг (№${qs.filter(x=>x.q.b===sb[0][0]).map(x=>x.i+1).join(', №')}) хичээл дээр дахин ярилцаарай.`);
+  if(sb.length>1)recs.push(`Хамгийн сайн түвшин: <b>${sb.at(-1)[0]}</b> — ${sb.at(-1)[1]}%.`);
+  const h=hard.slice(0,3);if(h.length)recs.push(`Хамгийн хүнд даалгавар: ${h.map(x=>`№${x.i+1} (${x.p}%)`).join(', ')}.${h[0].top?` №${h[0].i+1}-д олон сурагч «${esc(h[0].top)}» гэж буруу хариулжээ.`:''}`);
+  if(lowS.length)recs.push(`<b>${lowS.length}</b> сурагч 60%-иас доош авсан: ${esc(lowS.join(', '))}. Ганцаарчилсан дэмжлэг хэрэгтэй.`);
+  if(atp[0]&&atp[1])recs.push(`2 дахь оролдлогоор дундаж ${atp[1].p-atp[0].p>=0?'+':''}${atp[1].p-atp[0].p} хувиар өөрчлөгдсөн${atp[2]?`, 3 дахь оролдлогоор ${atp[2].p}% хүрсэн`:''}.`)}
+ if(notTook.length)recs.push(`Шалгалт өгөөгүй (${notTook.length}): ${esc(notTook.map(u=>u.ovog+' '+u.ner).join(', '))}.`);
+ const unseen=certed.filter(u=>!u.certSeen?.[aUnit]);if(unseen.length)recs.push(`Батламжаа хараахан үзээгүй (${unseen.length}): ${esc(unseen.map(u=>u.ner).join(', '))}.`);
+ return `<div class="row" style="margin-bottom:12px"><label for="aun" style="margin:0">Нэгж</label><select id="aun" style="width:auto">${UNITS.map(([n,t])=>`<option value="${n}" ${n===aUnit?'selected':''}>${n} ${t}</option>`).join('')}</select>
+  <div class="tabs"><button data-ab="first" class="${aBasis==='first'?'on':''}">Эхний оролдлого</button><button data-ab="best" class="${aBasis==='best'?'on':''}">Шилдэг оролдлого</button></div><button class="ghost sm" id="csv">Хүснэгт хуулах (Excel)</button></div>
+ <div class="stats">${[['Өгсөн',`${att.length}/${studs.length}`],['Дундаж',avg+'%'],['Хамгийн өндөр',mx+'%'],['Хамгийн бага',mn+'%'],['Тэнцсэн (60%+)',att.length?Math.round(pass/att.length*100)+'%':'—'],['Батламж үзсэн',`${seen.length}/${certed.length}`]].map(([l,v])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('')}</div>
+ <div class="card" style="margin-bottom:16px"><h3>Дүгнэлт, зөвлөмж</h3><ul style="margin:0;padding-left:20px">${recs.map(r=>`<li style="margin:6px 0">${r}</li>`).join('')}</ul></div>
+ <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))">
+  <div class="card tree an"><h3>Үнэлгээний тархалт</h3>${GR.map(g=>{const c=ps.filter(p=>grade(p)===g).length;return barRow(`${g[1]} · ${g[2]}`,ps.length?c/ps.length*100:0,`${c} хүн`,g[3])}).join('')}</div>
+  <div class="card tree an"><h3>Блумын түвшинээр</h3>${BL.map(b=>{const x=blA.find(z=>z[0]===b);return barRow(b,x?x[1]:0,x?x[1]+'%':'—',x&&x[1]<60?'--red':'--s3')}).join('')}<p class="small mut">Хувь = тухайн түвшний даалгаврыг зөв гүйцэтгэсэн хувь</p></div>
+  <div class="card tree an"><h3>Даалгаврын төрлөөр</h3>${tyA.map(([k,p])=>barRow(k,p,p+'%',p<60?'--red':'--s1')).join('')}</div>
+  <div class="card tree an"><h3>Оролдлогын ахиц</h3>${atp.map((x,j)=>barRow(j+1+'-р',x?x.p:0,x?`${x.p}% · ${x.n} хүн`:'—','--s2')).join('')}</div>
+  <div class="card tree an"><h3>Анги харьцуулалт · ${aUnit}</h3>${cmp.map(x=>barRow(x.c,x.p||0,x.p!=null?`${x.p}% · ${x.n}/${x.all}`:'—',x.c===tCls?'--s4':'--s3')).join('')}</div>
+ </div>
+ <div class="card scroll" style="margin-top:16px"><h3>Хамгийн хүнд 8 даалгавар</h3><table><thead><tr><th>№</th><th>Даалгавар</th><th>Түвшин</th><th>Зөв %</th><th>Түгээмэл буруу хариулт</th></tr></thead><tbody>${hard.slice(0,8).map(x=>`<tr><td>${x.i+1}</td><td>${esc(x.q.q)}</td><td>${x.q.b}</td><td><b style="color:${x.p<50?'var(--red2)':'inherit'}">${x.p}%</b></td><td>${x.top?esc(x.top)+` (${x.topn})`:'—'}</td></tr>`).join('')||'<tr><td colspan="5" class="mut">Өгөгдөл алга</td></tr>'}</tbody></table>
+ <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:800">Бүх 30 даалгаврын үр дүн</summary><table class="stack"><thead><tr><th>№</th><th>Даалгавар</th><th>Төрөл</th><th>Түвшин</th><th>Зөв</th></tr></thead><tbody>${qs.map(x=>`<tr><td>${x.i+1}</td><td>${esc(x.q.q)}</td><td>${TYPE_NM[x.q.t]}</td><td>${x.q.b}</td><td>${x.p!=null?`${x.ok}/${x.n} · ${x.p}%`:'—'}</td></tr>`).join('')}</tbody></table></details></div>
+ <div class="card scroll" style="margin-top:16px"><h3>Сурагч бүрээр</h3><table class="stack"><thead><tr><th>Овог нэр</th><th>Оролдлогууд</th><th>${aBasis==='first'?'Эхний':'Шилдэг'} %</th><th>Үнэлгээ</th><th>Батламж</th><th>Сул түвшин</th></tr></thead><tbody>
+ ${studs.map(u=>{const a=u.exams?.[aUnit]||[],p=pickAt(u,aUnit),pc=p?pctOf(p):null,g=p?grade(pc):null;return `<tr><td><b>${esc(u.ovog)} ${esc(u.ner)}</b>${u.demo?' <span class="demo">жишээ</span>':''}</td><td>${a.length?a.map(x=>x.score).join(' → ')+' / 30':'—'}</td><td>${pc!=null?pc+'%':'—'}</td><td>${g?`<b style="color:var(${g[3]})">${g[1]}</b> ${g[2]}`:'—'}</td><td>${a.length?(u.certSeen?.[aUnit]?`Авсан, үзсэн (${u.certSeen[aUnit]})`:'Авсан, үзээгүй'):'Аваагүй'}</td><td>${p?weak(p):'—'}</td></tr>`}).join('')}</tbody></table></div>`}
+function anCSV(){const rows=[['Овог','Нэр','Анги','Нэгж','1-р оролдлого','2-р','3-р','Эхний %','Үнэлгээ','Батламж']];
+ Object.values(users).filter(u=>u.cls===tCls).forEach(u=>{const a=u.exams?.[aUnit]||[];const p=a[0]?pctOf(a[0]):'';rows.push([u.ovog,u.ner,u.cls,aUnit,a[0]?.score??'',a[1]?.score??'',a[2]?.score??'',p,p!==''?grade(p)[1]:'',a.length?(u.certSeen?.[aUnit]?'Үзсэн':'Үзээгүй'):'Аваагүй'])});return rows.map(r=>r.join('\t')).join('\n')}
+function txHTML(){const T=teacher();return `<div class="card"><h3>Шинэ эх бичвэр нэмэх</h3><p class="small mut" style="margin-top:0">Сурагчдад «Бичих → Нэмэлт дасгал → Багшийн эх бичвэр» хэсэгт харагдана. Төрийн дуулал, шүлэг, үлгэр гэх мэт бичвэрээ хуулж оруулаарай. Урт бичвэрийг 400 тэмдэгтээр хувааж хэд хэдэн дасгал болгоно.</p>
+ <form id="txf"><div class="grid"><div><label for="x1">Гарчиг</label><input id="x1" required></div><div><label for="x2">Гар</label><select id="x2"><option value="mn">Монгол</option><option value="en">English</option></select></div></div>
+ <label for="x3">Эх бичвэр</label><textarea id="x3" rows="7" required></textarea><p class="small" id="xwarn"></p>
+ <details><summary style="cursor:pointer;font-weight:800">«Ойлгож уншъя» асуулт нэмэх (заавал биш)</summary><label for="x4">Асуулт</label><input id="x4"><div class="grid">${[0,1,2].map(j=>`<div><label for="xo${j}">Хариулт ${j+1}${j===0?' (зөв)':''}</label><input id="xo${j}"></div>`).join('')}</div></details>
+ <button style="margin-top:12px">Нэмэх</button></form></div>
+ <div class="card" style="margin-top:16px"><h3>Нэмсэн бичвэрүүд (${ttexts.length})</h3>${ttexts.map(t=>`<div style="border-bottom:2px solid var(--line);padding:10px 0"><div class="row" style="justify-content:space-between"><b>${esc(t.title)}</b><span class="small mut">${t.lang==='mn'?'Монгол':'English'} · ${esc(teachers[t.by]?.name||t.by)} · ${t.date}${t.q?' · асуулттай':''}</span></div><p class="small" style="white-space:pre-line;margin:6px 0">${esc(t.text.slice(0,240))}${t.text.length>240?'…':''}</p>${T.admin||t.by===tlogin?`<button class="ghost sm" data-txd="${t.id}">Устгах</button>`:''}</div>`).join('')||'<p class="mut">Одоогоор алга.</p>'}</div>`}
+V.teacher=()=>{const T=teacher();if(!T)return V.login();const my=T.admin?CLASSES:T.classes;if(!my.includes(tCls))tCls=my[0];
+ const list=Object.values(users).filter(u=>u.cls===tCls);
+ return `<section class="band"><div class="wrap"><div class="row" style="justify-content:space-between"><div><h2 style="margin:0">Багшийн самбар</h2><p class="small mut" style="margin:4px 0 0">${esc(T.name)}${T.admin?' · Админ':''}</p></div><div class="row"><label for="tcls" style="margin:0">Анги</label><select id="tcls" style="width:auto">${my.map(c=>`<option ${c===tCls?'selected':''}>${c}</option>`).join('')}</select></div></div>
+ <div class="tabs" style="margin:12px 0"><button data-tt="st" class="${tTab==='st'?'on':''}">Сурагчдын явц</button><button data-tt="op" class="${tTab==='op'?'on':''}">🔓 Хичээл нээх</button><button data-tt="lt" class="${tTab==='lt'?'on':''}">Хичээлийн дүгнэлт</button><button data-tt="an" class="${tTab==='an'?'on':''}">Шалгалтын анализ</button><button data-tt="ex" class="${tTab==='ex'?'on':''}">Шалгалт нээх, хаах</button><button data-tt="tx" class="${tTab==='tx'?'on':''}">Эх бичвэр</button>${T.admin?`<button data-tt="tc" class="${tTab==='tc'?'on':''}">Багш нар</button>`:''}</div>
+ ${tTab==='st'?`<div class="card scroll"><table class="stack"><thead><tr><th>Овог нэр</th><th>Бичих хичээл</th><th>Од</th><th>Онол</th><th>Хурд</th><th>Өдөр</th>${UNITS.map(u=>`<th>${u[0]}</th>`).join('')}<th></th></tr></thead><tbody>
+ ${list.map(u=>{const lv=TY.mn.findIndex((l,i)=>!l.ex.every((_,j)=>(u.typing?.mn?.[i+1]?.[j]?.stars||0)>=3));return `<tr><td><b>${esc(u.ovog)} ${esc(u.ner)}</b>${u.demo?' <span class="demo">жишээ</span>':''}${u.free?' <span class="pill">түгжээгүй</span>':''}</td><td>${lv<0?'Бүгд дууссан':lv+1+'-р хичээл дээр'}</td><td>${starsOf(u)}</td><td>${Object.keys(u.theory||{}).length}/21${(()=>{const g=Object.values(u.ltest||{});if(!g.length)return '';const a=Math.round(g.reduce((s,r)=>s+r.score/r.total*100,0)/g.length);return ` <span class="ltc ${ltCls(a)}" title="Хичээлийн шалгалтын дундаж">${a}%</span>`})()}</td><td>${u.best?.speed||0}</td><td>${streak(u)}</td>${UNITS.map(([n])=>{const a=u.exams?.[n]||[];return `<td>${a.length?a.map(x=>x.score).join(' · '):'—'}</td>`}).join('')}<td><div class="row"><button class="ghost sm" data-rp="${u.id}">Нууц үг</button><button class="ghost sm" data-free="${u.id}">${u.free?'Түгжээ буцаах':'Түгжээ нээх'}</button></div></td></tr>`}).join('')||`<tr><td colspan="13" class="mut">${tCls} ангид бүртгүүлсэн сурагч алга.</td></tr>`}
+ </tbody></table></div><p class="note">«Түгжээ нээх» — тухайн сурагчид бүх хичээлийг нээнэ (жишээ нь өвчтэй байсан, түрүүлж явж буй сурагчид).</p>`:
+ tTab==='op'?opHTML():tTab==='lt'?ltTabHTML():tTab==='an'?anHTML():tTab==='tx'?txHTML():
+ tTab==='ex'?`<div class="grid">${UNITS.map(([n,t])=>{const s=exams[tCls]?.[n];return `<div class="card"><span class="pill">${tCls} · Нэгж ${n}</span><h3 style="margin-top:8px">${t}</h3>${s?.open?`<p class="small mut">Нээлттэй. ${tCls} ангид хэлэх код:</p><div class="code">${s.code}</div><button class="ghost" data-close="${n}" style="margin-top:8px">Шалгалтыг хаах</button>`:`<p class="small mut">Хаалттай</p><button class="leaf" data-open="${n}">Нээх, код үүсгэх</button>`}</div>`}).join('')}</div><p class="note">Анги бүр өөрийн кодтой. Шалгалт дуусмагц хаагаарай.</p>`:
+ (teacher().admin?tcHTML():'')}
+ <div class="row" style="margin-top:16px"><button class="ghost" id="tpw">Нууц үгээ солих</button><button class="ghost" id="tout">Багшийн эрхээс гарах</button></div></div></section>`};
+V.teacher.bind=()=>{if(!teacher())return V.login.bind();tcBind();document.querySelectorAll('[data-optg]').forEach(b=>b.onclick=()=>{const k=b.dataset.optg;opened[tCls]??={};if(opened[tCls][k])delete opened[tCls][k];else opened[tCls][k]=1;save();render()});document.querySelectorAll('[data-opall]').forEach(b=>b.onclick=()=>{const v=b.dataset.v==='1';opened[tCls]??={};b.dataset.opall.split('|').forEach(k=>{if(v)opened[tCls][k]=1;else delete opened[tCls][k]});save();render()});document.querySelectorAll('[data-ltm]').forEach(b=>b.onclick=()=>{ltMode=b.dataset.ltm;render()});const ls=$('#ltsel');if(ls)ls.onchange=e=>{ltSel=e.target.value;ltAuto=false;render()};$('#tcls').onchange=e=>{tCls=e.target.value;render()};document.querySelectorAll('[data-tt]').forEach(b=>b.onclick=()=>{tTab=b.dataset.tt;render()});
+ document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{exams[tCls]??={};exams[tCls][b.dataset.open]={open:true,code:String(Math.floor(1000+Math.random()*9000)),by:tlogin};save();render()});
+ document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{exams[tCls][b.dataset.close].open=false;save();render()});
+ document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{delete teachers[b.dataset.del];save();render()});
+ document.querySelectorAll('[data-free]').forEach(b=>b.onclick=()=>{const u=users[b.dataset.free];u.free=!u.free;save();render()});
+ const an=$('#aun');if(an){an.onchange=e=>{aUnit=e.target.value;render()};document.querySelectorAll('[data-ab]').forEach(b=>b.onclick=()=>{aBasis=b.dataset.ab;render()});
+  $('#csv').onclick=()=>{const t=anCSV();const done=()=>modal(`<h3>Хуулагдлаа</h3><p>Excel эсвэл Google Sheets нээгээд Ctrl+V дарж буулгаарай.</p><button onclick="window.closeModal()">Ойлголоо</button>`);
+   try{navigator.clipboard.writeText(t).then(done,()=>modal(`<h3>Хүснэгт</h3><p class="small">Доорх бичвэрийг сонгоод (Ctrl+A, Ctrl+C) Excel-д буулгаарай.</p><textarea rows="10" style="font-family:'PT Mono',monospace;font-size:13px">${esc(t)}</textarea><button onclick="window.closeModal()" style="margin-top:8px">Хаах</button>`))}catch(e){done()}}}
+ const xf=$('#txf');if(xf){const pv=()=>{const r=normText($('#x3').value,$('#x2').value);if($('#x2').value==='mn'&&/[!;]/.test($('#x3').value))r.bad.push('! → .','; → ,');$('#xwarn').innerHTML=r.bad.length?`<span style="color:var(--red2)">Монгол/англи гар дээр байхгүй тэмдэгтийг засав: ${esc(r.bad.join(' '))}</span>`:r.text?`<span class="mut">${r.text.length} тэмдэгт · ${splitText(r.text).length} дасгал болно</span>`:''};$('#x3').oninput=pv;$('#x2').onchange=pv;
+  xf.onsubmit=e=>{e.preventDefault();const lang=$('#x2').value,r=normText($('#x3').value,lang);if(!r.text)return;const qq=$('#x4').value.trim(),os=[0,1,2].map(j=>$('#xo'+j).value.trim());
+   let q=null;if(qq&&os[0]&&os[1]){const o=os.filter(Boolean);const p=shuffle(o.map((_,j)=>j));q={q:qq,o:p.map(j=>o[j]),a:p.indexOf(0)}}
+   ttexts.push({id:'t'+Date.now(),title:$('#x1').value.trim(),text:r.text,lang,q,by:tlogin,date:today()});store.set('ttexts',ttexts);render()}}
+ document.querySelectorAll('[data-txd]').forEach(b=>b.onclick=()=>{ttexts=ttexts.filter(t=>t.id!==b.dataset.txd);store.set('ttexts',ttexts);render()});
+ document.querySelectorAll('[data-rp]').forEach(b=>b.onclick=()=>{const u=users[b.dataset.rp];modal(`<h3>${esc(u.ovog)} ${esc(u.ner)} — шинэ нууц үг</h3><input id="npw" placeholder="Шинэ нууц үг (4+ тэмдэгт)"><div class="row" style="justify-content:center;margin-top:10px"><button class="ghost" onclick="window.closeModal()">Болих</button><button id="m-pw">Хадгалах</button></div><p class="fb no" id="pwm"></p>`);
+  $('#m-pw').onclick=()=>{const v=$('#npw').value;if(v.length<4){$('#pwm').textContent='Дор хаяж 4 тэмдэгт.';return}u.pw=hash(v);save();$('#mbox').innerHTML=`<h3>Хадгаллаа</h3><p>Сурагчдаа шинэ нууц үгийг нь биечлэн хэлээрэй.</p><button onclick="window.closeModal()">Ойлголоо</button>`}});
+ $('#tpw').onclick=()=>{modal(`<h3>Нууц үгээ солих</h3><form id="pwf" style="text-align:left"><label for="op">Одоогийн нууц үг</label><input id="op" type="password" required autocomplete="current-password"><label for="np1">Шинэ нууц үг (6+ тэмдэгт)</label><input id="np1" type="password" required minlength="6" autocomplete="new-password"><label for="np2">Шинэ нууц үгээ давтах</label><input id="np2" type="password" required minlength="6" autocomplete="new-password"><p class="fb no" id="pwe"></p><div class="row" style="justify-content:center"><button type="button" class="ghost" onclick="window.closeModal()">Болих</button><button>Хадгалах</button></div></form>`);
+  $('#pwf').onsubmit=e=>{e.preventDefault();const T=teacher();if(hash($('#op').value)!==T.pw)return $('#pwe').textContent='Одоогийн нууц үг буруу байна.';if($('#np1').value!==$('#np2').value)return $('#pwe').textContent='Шинэ нууц үг таарахгүй байна.';if($('#np1').value==='1234')return $('#pwe').textContent='Өөр нууц үг сонгоно уу.';T.pw=hash($('#np1').value);save();$('#mbox').innerHTML='<h3>Нууц үг солигдлоо</h3><p>Дараагийн удаа шинэ нууц үгээрээ нэвтэрнэ.</p><button onclick="window.closeModal()">Ойлголоо</button>'}};
+ $('#tout').onclick=()=>{tlogin=null;store.set('tlogin',null);lmode='login';location.hash='home'}};
+
+/* ========== ЕРӨНХИЙ ========== */
+
+/* ---------- Админ: багш нар ---------- */
+function tcHTML(){const me=tlogin;const list=Object.entries(teachers).sort((a,b)=>(b[1].admin?1:0)-(a[1].admin?1:0)||a[1].name.localeCompare(b[1].name));
+ return `<div class="card"><h3 style="margin-top:0">Багш нар</h3><p class="small mut" style="margin-top:0">Зөвхөн админ багш нэмж, хасна. Нэмсэн багшид нэвтрэх нэр, нууц үгийг нь биечлэн хэлээрэй. Багш нэвтэрсний дараа нууц үгээ өөрөө сольж болно.</p>
+ <div class="scroll"><table><thead><tr><th>Нэр</th><th>Нэвтрэх нэр</th><th>Ангиуд</th><th>Эрх</th><th></th></tr></thead><tbody>${list.map(([l,t])=>`<tr><td><b>${esc(t.name)}</b>${l===me?' <span class="pill">Та</span>':''}</td><td><code>${esc(l)}</code></td><td>${t.admin?'Бүх анги':esc((t.classes||[]).join(', '))}</td><td>${t.admin?'Админ':'Багш'}</td>
+  <td><div class="row" style="gap:6px;flex-wrap:nowrap">${t.admin?'':`<button class="ghost sm" data-tcl="${esc(l)}">Анги засах</button>`}${l===me?'':`<button class="ghost sm" data-tpw="${esc(l)}">Нууц үг</button><button class="ghost sm" data-tdel="${esc(l)}" style="color:#c0392b;border-color:#e8b4ad">Хасах</button>`}</div></td></tr>`).join('')}</tbody></table></div>
+ <h3 style="margin-top:20px">Шинэ багш нэмэх</h3><form id="tf2"><div class="grid"><div><label for="nt1">Овог нэр</label><input id="nt1" required placeholder="Жишээ: Д.Сараа"></div><div><label for="nt2">Нэвтрэх нэр (латин)</label><input id="nt2" required placeholder="sarah" autocomplete="off"></div><div><label for="nt3">Анхны нууц үг</label><input id="nt3" required minlength="4" autocomplete="off"></div></div>
+ <label style="margin-top:10px">Хариуцах ангиуд</label><div class="row">${CLASSES.map(c=>`<label class="chk" style="margin:0"><input type="checkbox" name="ncl" value="${c}">${c}</label>`).join('')}</div>
+ <label class="chk" style="margin-top:10px"><input type="checkbox" id="nt4"> Админ эрх өгөх (бүх анги, багш нэмж хасах эрхтэй)</label>
+ <div class="fb no" id="nterr"></div><button style="margin-top:10px">Багш нэмэх</button></form></div>`}
+function tcBind(){const T=teacher();if(!T?.admin)return;
+ const f=$('#tf2');if(f)f.onsubmit=e=>{e.preventDefault();const er=m=>$('#nterr').textContent=m;const l=$('#nt2').value.trim().toLowerCase(),nm=$('#nt1').value.trim(),pw=$('#nt3').value,ad=$('#nt4').checked;const cl=[...document.querySelectorAll('[name=ncl]:checked')].map(x=>x.value);
+  if(!nm)return er('Багшийн нэрийг бичнэ үү.');if(!/^[a-z0-9_.]{3,20}$/.test(l))return er('Нэвтрэх нэр латин үсэг, тоогоор 3–20 тэмдэгт байна.');if(teachers[l])return er('Энэ нэвтрэх нэр бүртгэлтэй байна.');if(pw.length<4)return er('Нууц үг дор хаяж 4 тэмдэгт.');if(!ad&&!cl.length)return er('Дор хаяж нэг анги сонгоно уу.');
+  teachers[l]={name:nm,pw:hash(pw),admin:ad,classes:ad?[...CLASSES]:cl};save();render();modal(`<h3>Багш нэмэгдлээ</h3><p>${esc(nm)}<br>Нэвтрэх нэр: <b>${esc(l)}</b><br>Нууц үгийг багшид биечлэн хэлээрэй.</p><button onclick="window.closeModal()">Ойлголоо</button>`)};
+ document.querySelectorAll('[data-tdel]').forEach(b=>b.onclick=()=>{const l=b.dataset.tdel,t=teachers[l];if(!t)return;
+  if(t.admin&&Object.values(teachers).filter(x=>x.admin).length<2)return modal('<h3>Хасах боломжгүй</h3><p>Сүүлийн админыг хасах боломжгүй.</p><button onclick="window.closeModal()">Ойлголоо</button>');
+  modal(`<h3>${esc(t.name)} багшийг хасах уу?</h3><p class="small">Багш сайтад нэвтрэх эрхгүй болно. Сурагчдын бүртгэл, дүн хэвээр үлдэнэ.</p><div class="row" style="justify-content:center"><button class="ghost" onclick="window.closeModal()">Болих</button><button id="m-tdel" style="background:#c0392b">Хасах</button></div>`);
+  $('#m-tdel').onclick=()=>{delete teachers[l];save();closeModal();render()}});
+ document.querySelectorAll('[data-tpw]').forEach(b=>b.onclick=()=>{const l=b.dataset.tpw,t=teachers[l];
+  modal(`<h3>${esc(t.name)} — шинэ нууц үг</h3><input id="m-npw" placeholder="Шинэ нууц үг (4+ тэмдэгт)" autocomplete="off"><p class="fb no" id="m-pwe"></p><div class="row" style="justify-content:center;margin-top:8px"><button class="ghost" onclick="window.closeModal()">Болих</button><button id="m-pws">Хадгалах</button></div>`);
+  $('#m-pws').onclick=()=>{const v=$('#m-npw').value;if(v.length<4)return $('#m-pwe').textContent='Дор хаяж 4 тэмдэгт.';t.pw=hash(v);save();$('#mbox').innerHTML='<h3>Хадгаллаа</h3><p>Шинэ нууц үгийг багшид биечлэн хэлээрэй.</p><button onclick="window.closeModal()">Ойлголоо</button>'}});
+ document.querySelectorAll('[data-tcl]').forEach(b=>b.onclick=()=>{const l=b.dataset.tcl,t=teachers[l];
+  modal(`<h3>${esc(t.name)} — хариуцах ангиуд</h3><div class="row" style="justify-content:center">${CLASSES.map(c=>`<label class="chk" style="margin:0"><input type="checkbox" name="ecl" value="${c}" ${(t.classes||[]).includes(c)?'checked':''}>${c}</label>`).join('')}</div><p class="fb no" id="m-cle"></p><div class="row" style="justify-content:center;margin-top:8px"><button class="ghost" onclick="window.closeModal()">Болих</button><button id="m-cls">Хадгалах</button></div>`);
+  $('#m-cls').onclick=()=>{const cl=[...document.querySelectorAll('[name=ecl]:checked')].map(x=>x.value);if(!cl.length)return $('#m-cle').textContent='Дор хаяж нэг анги сонгоно уу.';t.classes=cl;save();closeModal();render()}})}
+function modal(h){$('#mbox').innerHTML=h;$('#modal').classList.add('on')}
+function closeModal(){$('#modal').classList.remove('on')}
+window.closeModal=closeModal;
+V.gate=()=>`<section class="band"><div class="wrap" style="max-width:620px"><div class="card" style="text-align:center"><div style="font-size:52px">🔒</div><h2>Эхлээд бүртгүүлж нэвтэрнэ үү</h2><p>Бичих дасгал, онол, тоглоом, шалгалт зэрэг бүх даалгавар зөвхөн бүртгэлтэй сурагчдад нээгдэнэ. Нэвтэрмэгц хичээлүүд дарааллаараа нээгдэнэ.</p><div class="row" style="justify-content:center"><button onclick="window._gate('login')">Нэвтрэх</button><button class="ghost" onclick="window._gate('reg')">Бүртгүүлэх</button></div></div></div></section>`;
+window._gate=m=>{lmode=m;location.hash='login';render()};
+function render(){render0();__after()}
+function __after(){const d=document.getElementById('syncdot');if(d)d.dataset.st=SYNC.status;const dn=document.getElementById('demonote');if(dn)dn.hidden=SYNC.on;
+ if(!SYNC.on&&teacher()&&(location.hash.slice(1)||'home')==='teacher'){const w=document.querySelector('#app .wrap');if(w&&!w.querySelector('.syncbanner'))w.insertAdjacentHTML('afterbegin','<div class="syncbanner"><b>Анхаар:</b> Firebase холбогдоогүй тул сурагчдын явц, таны нээсэн хичээл зөвхөн энэ компьютерт хадгалагдаж байна. <code>firebase-config.js</code> файлд тохиргоогоо хийснээр бүх компьютер нэг дор холбогдоно.</div>')}}
+let __rt=null;
+window.__onRemote=k=>{const d=document.getElementById('syncdot');if(d)d.dataset.st=SYNC.status;if(k==='__status')return;
+ if(SYNC.live.teachers&&typeof teachers!=='undefined'&&teachers!==SYNC.live.teachers&&!teachers)teachers=SYNC.live.teachers;
+ clearTimeout(__rt);__rt=setTimeout(()=>{
+  const v=location.hash.slice(1)||'home',a=document.activeElement;
+  if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.closest('#app'))return;
+  if(document.getElementById('modal')?.classList.contains('on'))return;
+  const locked=/түгжээтэй/.test(document.getElementById('app')?.innerText||'');
+  const ok=teacher()?['teacher','home'].includes(v):(v==='home'||locked||(v==='exam'&&!ex)||v==='login'||v==='theory'||v==='typing');
+  if(!ok)return;const y=scrollY;render();scrollTo(0,y)},350)};
+function render0(){let v=(location.hash.slice(1)||'home');let f=V[v],thid=null;
+ if(v.startsWith('th-')){const t=TH.find(x=>thId(x.id)===v);if(t){thid=t.id;f=()=>theoryView(thid);f.bind=()=>theoryBind(thid)}}
+ if(!f)f=V.home;
+ if(!user()&&!teacher()&&(['typing','type','theory','terms','game','speed','exam'].includes(v)||thid)){f=V.gate;thid=null}
+ typer=null;clearInterval(window._tk);if(v!=='game')stopGame();if(v!=='exam')clearInterval(window._et);
+ $('#app').innerHTML=f();f.bind&&f.bind();
+ document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.v===v||(v==='type'&&a.dataset.v==='typing')||(!!thid&&a.dataset.v==='theory')));
+ const u=user();$('#who').textContent=teacher()?'Багшийн самбар':u?`${u.ner} · ${u.cls}`:'Нэвтрэх'}
+window.render=render;
+$('#who').onclick=()=>{if(teacher())return location.hash='teacher';const u=user();if(!u)return location.hash='login';
+ modal(`<h3>${esc(u.ovog)} ${esc(u.ner)}</h3><p>${esc(u.cls)} анги · ${doneCount(u)} дасгал · ${starsOf(u)} од · ${streak(u)} өдөр дараалан · Шилдэг хурд ${u.best?.speed||0} үг/мин</p><div class="row" style="justify-content:center"><button class="ghost" onclick="window.closeModal()">Хаах</button><button id="m-out">Гарах</button></div>`);
+ $('#m-out').onclick=()=>{me=null;store.set('me',null);closeModal();location.hash='home';render()}};
+$('#modal').onclick=e=>{if(e.target.id==='modal'&&!$('#rest'))closeModal()};
+addEventListener('hashchange',()=>{if(ex&&location.hash!=='#exam'){location.hash='exam';return}render();scrollTo(0,0)});
+/* Нүдээ амраах сануулга — хичээлийн жилийн 3-р зорилго, 1.2.6 сэдэв */
+let active=0;setInterval(()=>{if(document.visibilityState==='visible')active++;if(active>=20*60&&!ex){active=0;let s=20;
+ modal(`<div id="rest"><h2>Нүдээ амраах цаг боллоо</h2><p>20 минут дэлгэц харлаа. 20 секунд цонхоор хол харж, мөрөө сулла.</p><p style="font-size:44px;font-weight:900;margin:6px 0" id="rs">20</p><button id="rok" disabled>Амарлаа</button></div>`);
+ const t=setInterval(()=>{s--;const e=$('#rs');if(e)e.textContent=s;if(s<=0){clearInterval(t);const b=$('#rok');if(b){b.disabled=false;b.onclick=closeModal}}},1000)}},1000);
+render();
+SYNC.onChange(k=>{try{window.__onRemote(k)}catch(e){console.error(e)}});
+};
+SYNC.start(window.__APP);
+</script>
+</body>
+</html>
